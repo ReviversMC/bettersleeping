@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "bettersleeping",
+  "version": "0.1.0",
+
+  "name": "Better Sleeping",
+  "description": "This mod makes it so that night can be skipped once a given percentage of players are asleep, gives sleeping players buffs and players who don't sleep debuffs!",
+  "authors": [
+    "ExtraCrafTX"
+  ],
+  "contact": {
+    "homepage": "https://minecraft.curseforge.com/projects/bettersleeping",
+    "issues": "https://minecraft.curseforge.com/projects/bettersleeping/issues"
+  },
+
+  "license": "CC BY-NC-SA 4.0",
+  "icon": "assets/bettersleeping/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.extracraftx.minecraft.bettersleeping.BetterSleeping"
+    ]
+  },
+  "mixins": [
+    "bettersleeping.mixins.json"
+  ],
+
+  "requires": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}

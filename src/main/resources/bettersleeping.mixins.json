@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.extracraftx.minecraft.bettersleeping.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ServerPlayerEntityMixin",
+    "GameRulesMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
