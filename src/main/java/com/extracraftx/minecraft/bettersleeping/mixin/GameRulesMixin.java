@@ -18,10 +18,8 @@ class GameRulesMixin{
     @Shadow
     private TreeMap<String, GameRules.Value> rules;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void onInit(CallbackInfo info){
-        GameRules.Key key = new GameRules.Key("50", GameRules.Type.NUMERICAL_VALUE);
-        KEYS.put("percentRequiredToSleep", key);
-        rules.put("percentRequiredToSleep", key.createValue());
+    @Inject(method = "<clinit>", at = @At("RETURN"))
+    private static void onStaticInit(CallbackInfo info){
+        KEYS.put("percentRequiredToSleep", new GameRules.Key("50", GameRules.Type.NUMERICAL_VALUE));
     }
 }

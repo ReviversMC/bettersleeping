@@ -18,7 +18,7 @@ public class Config{
 
     public static File configDir = new File("config");
     public static File configFile = new File("config/bettersleeping_config.json");
-    public static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static Gson gson = new GsonBuilder().setPrettyPrinting().setLenient().create();
     public static Config INSTANCE = new Config();
 
     public static void loadConfigs(){
