@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "bettersleeping",
-  "version": "0.1.0",
+  "version": "0.1.1",
 
   "name": "Better Sleeping",
-  "description": "This mod makes it so that night can be skipped once a given percentage of players are asleep, gives sleeping players buffs and players who don't sleep debuffs!",
+  "description": "This mod adds sleep voting, gives sleeping players buffs and players who don't sleep debuffs!",
   "authors": [
     "ExtraCrafTX"
   ],
