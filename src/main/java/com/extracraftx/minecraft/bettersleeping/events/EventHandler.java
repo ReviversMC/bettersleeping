@@ -4,16 +4,18 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 
+import com.extracraftx.minecraft.bettersleeping.BetterSleeping;
 import com.extracraftx.minecraft.bettersleeping.config.Config;
 import com.extracraftx.minecraft.bettersleeping.interfaces.SleepManaged;
 import com.ibm.icu.text.MessageFormat;
 
-import net.minecraft.ChatFormat;
+import net.minecraft.util.Formatting;
+import net.minecraft.world.GameRules;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.text.LiteralText;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -21,7 +23,7 @@ import net.minecraft.server.world.ServerWorld;
 public class EventHandler{
     public static void onTick(MinecraftServer server){
         server.getWorlds().forEach((world)->{
-            int percent = world.getGameRules().getInteger("percentRequiredToSleep");
+            int percent = world.getGameRules().getInt(BetterSleeping.key);
             if(percent >= 100 || percent <= 0)
                 return;
             List<ServerPlayerEntity> players = world.getPlayers();
@@ -37,19 +39,19 @@ public class EventHandler{
     }
 
     private static void skipNight(ServerWorld world, List<ServerPlayerEntity> players){
-        if(world.getGameRules().getBoolean("doDaylightCycle")){
+        if(world.getGameRules().getBoolean(GameRules.DO_DAYLIGHT_CYCLE)){
             long l = world.getLevelProperties().getTimeOfDay() + 24000L;
             world.setTimeOfDay(l - l%24000);
         }
-        if(world.getGameRules().getBoolean("doWeatherCycle")){
+        if(world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE)){
             world.getLevelProperties().setRainTime(0);
             world.getLevelProperties().setRaining(false);
             world.getLevelProperties().setThunderTime(0);
             world.getLevelProperties().setThundering(false);
         }
-        TextComponent skipText = new TextComponent(Config.INSTANCE.nightSkippedMessage);
+        LiteralText skipText = new LiteralText(Config.INSTANCE.nightSkippedMessage);
         for(String format : Config.INSTANCE.formatting){
-            skipText.applyFormat(ChatFormat.getFormatByName(format));
+            skipText.formatted(Formatting.byName(format));
         }
         players.forEach(p->{
             p.sendMessage(skipText);
@@ -65,7 +67,7 @@ public class EventHandler{
                     MessageFormat awakeFormat = new MessageFormat(Config.INSTANCE.debuffMessage);
                     HashMap<String, Object> args = new HashMap<>();
                     args.put("nights", NumberFormat.getInstance().format(nightsAwake));
-                    p.sendMessage(new TextComponent(awakeFormat.format(args)).applyFormat(ChatFormat.GOLD));
+                    p.sendMessage(new LiteralText(awakeFormat.format(args)).formatted(Formatting.GOLD));
                     
                     int nightsAwakeOver = nightsAwake - Config.INSTANCE.nightsBeforeDebuff+1;
                     p.addPotionEffect(new StatusEffectInstance(StatusEffects.NAUSEA,nightsAwakeOver*100));
@@ -108,9 +110,9 @@ public class EventHandler{
         args.put("asleep", NumberFormat.getInstance().format(asleep));
         args.put("total", NumberFormat.getInstance().format(players.size()));
         args.put("percent", NumberFormat.getInstance().format((asleep*100)/players.size()));
-        TextComponent sleepingMessage = new TextComponent(sleepingFormat.format(args));
+        LiteralText sleepingMessage = new LiteralText(sleepingFormat.format(args));
         for(String format : Config.INSTANCE.formatting){
-            sleepingMessage.applyFormat(ChatFormat.getFormatByName(format));
+            sleepingMessage.formatted(Formatting.byName(format));
         }
         players.forEach(p->{
             p.sendMessage(sleepingMessage);

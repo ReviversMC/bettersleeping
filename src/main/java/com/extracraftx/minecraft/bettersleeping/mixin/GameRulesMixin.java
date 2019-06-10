@@ -1,12 +1,8 @@
 package com.extracraftx.minecraft.bettersleeping.mixin;
 
-import java.util.TreeMap;
-
+import org.apache.commons.lang3.NotImplementedException;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.world.GameRules;
 
@@ -14,12 +10,12 @@ import net.minecraft.world.GameRules;
 class GameRulesMixin{
 
     @Shadow
-    private static TreeMap<String, GameRules.Key> KEYS;
-    @Shadow
-    private TreeMap<String, GameRules.Value> rules;
-
-    @Inject(method = "<clinit>", at = @At("RETURN"))
-    private static void onStaticInit(CallbackInfo info){
-        KEYS.put("percentRequiredToSleep", new GameRules.Key("50", GameRules.Type.NUMERICAL_VALUE));
+    private static <T extends GameRules.Rule<T>> GameRules.RuleKey<T> register(String key, GameRules.RuleType<T> type) {
+        throw new NotImplementedException("GameRules mixin failed");
     }
+
+    static{
+        register("percentRequiredToSleep",GameRules$IntRuleAccessor.invokeOf(50));
+    }
+
 }
