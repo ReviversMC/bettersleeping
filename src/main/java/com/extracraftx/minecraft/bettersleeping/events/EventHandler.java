@@ -20,10 +20,10 @@ import net.minecraft.server.world.ServerWorld;
 
 public class EventHandler{
     public static void onTick(MinecraftServer server){
+        int percent = server.getGameRules().getInteger("percentRequiredToSleep");
+        if(percent >= 100 || percent <= 0)
+            return;
         server.getWorlds().forEach((world)->{
-            int percent = world.getGameRules().getInteger("percentRequiredToSleep");
-            if(percent >= 100 || percent <= 0)
-                return;
             List<ServerPlayerEntity> players = world.getPlayers();
             int count = 0;
             for (PlayerEntity p : players) {
@@ -65,7 +65,11 @@ public class EventHandler{
                     MessageFormat awakeFormat = new MessageFormat(Config.INSTANCE.debuffMessage);
                     HashMap<String, Object> args = new HashMap<>();
                     args.put("nights", NumberFormat.getInstance().format(nightsAwake));
-                    p.sendMessage(new TextComponent(awakeFormat.format(args)).applyFormat(ChatFormat.GOLD));
+                    TextComponent debuffText = new TextComponent(awakeFormat.format(args));
+                    for(String format : Config.INSTANCE.formatting){
+                        debuffText.applyFormat(ChatFormat.getFormatByName(format));
+                    }
+                    p.sendMessage(debuffText);
                     
                     int nightsAwakeOver = nightsAwake - Config.INSTANCE.nightsBeforeDebuff+1;
                     p.addPotionEffect(new StatusEffectInstance(StatusEffects.NAUSEA,nightsAwakeOver*100));
