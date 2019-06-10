@@ -2,9 +2,6 @@
 
 This mod adds sleep voting, sleep recovery and no-sleep debuffs!
 
-
-Requires the [Fabric API](https://minecraft.curseforge.com/projects/fabric).
-
  
 
 Sleep voting allows nights to be skipped when a certain percentage of the players are asleep. This can be set via a gamerule (`percentRequiredToSleep`) per save!
