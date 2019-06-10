@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "bettersleeping",
-  "version": "0.1.1",
+  "version": "0.1.2",
 
   "name": "Better Sleeping",
   "description": "This mod adds sleep voting, gives sleeping players buffs and players who don't sleep debuffs!",
