@@ -7,7 +7,8 @@ import java.util.List;
 import com.extracraftx.minecraft.bettersleeping.BetterSleeping;
 import com.extracraftx.minecraft.bettersleeping.config.Config;
 import com.extracraftx.minecraft.bettersleeping.interfaces.SleepManaged;
-import com.ibm.icu.text.MessageFormat;
+
+import org.apache.commons.lang3.text.StrSubstitutor;
 
 import net.minecraft.util.Formatting;
 import net.minecraft.world.GameRules;
@@ -64,10 +65,10 @@ public class EventHandler{
                 sm.incrementNightsAwake(1);
                 int nightsAwake = sm.getNightsAwake();
                 if(Config.INSTANCE.awakeDebuff && nightsAwake >= Config.INSTANCE.nightsBeforeDebuff){
-                    MessageFormat awakeFormat = new MessageFormat(Config.INSTANCE.debuffMessage);
-                    HashMap<String, Object> args = new HashMap<>();
+                    // MessageFormat awakeFormat = new MessageFormat(Config.INSTANCE.debuffMessage);
+                    HashMap<String, String> args = new HashMap<>();
                     args.put("nights", NumberFormat.getInstance().format(nightsAwake));
-                    LiteralText debuffText = new LiteralText(awakeFormat.format(args));
+                    LiteralText debuffText = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.debuffMessage, args, "{", "}"));
                     for(String format : Config.INSTANCE.formatting){
                         debuffText.formatted(Formatting.byName(format));
                     }
@@ -109,12 +110,12 @@ public class EventHandler{
     }
 
     private static void sendAsleepMessage(List<? extends PlayerEntity> players, long asleep, int total){
-        MessageFormat sleepingFormat = new MessageFormat(Config.INSTANCE.playersAsleepMessage);
-        HashMap<String, Object> args = new HashMap<>();
+        // MessageFormat sleepingFormat = new MessageFormat(Config.INSTANCE.playersAsleepMessage);
+        HashMap<String, String> args = new HashMap<>();
         args.put("asleep", NumberFormat.getInstance().format(asleep));
         args.put("total", NumberFormat.getInstance().format(players.size()));
         args.put("percent", NumberFormat.getInstance().format((asleep*100)/players.size()));
-        LiteralText sleepingMessage = new LiteralText(sleepingFormat.format(args));
+        LiteralText sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
         for(String format : Config.INSTANCE.formatting){
             sleepingMessage.formatted(Formatting.byName(format));
         }
