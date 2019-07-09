@@ -27,6 +27,8 @@ Messages are sent when a player sleeps, for skipping nights and for debuffs. The
   * `{asleep}` which is replaced with the number of players asleep
   * `{total}` which is replaced with the total number of players
   * `{percent}` which is replaced with the percentage of players that are asleep
+  * `{required}` which is replaced with the number of players required to skip the night
+  * `{percentRequired}` which is replaced with the percentage of players required to skip the night
 * The debuff message can take `{nights}` which is replaced with the number of nights skipped.
 
 The config file also has a formatting field that is used to format the messages. It is a list and can take the names of any of the standard colours and styles. The [Minecraft wiki](https://minecraft.gamepedia.com/Formatting_codes) has a full list.
