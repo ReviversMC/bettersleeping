@@ -88,6 +88,8 @@ public class EventHandler{
     }
 
     public static void onWakeup(PlayerEntity player, boolean b1, boolean b2, boolean b3){
+        if(!(player instanceof ServerPlayerEntity))
+            return;
         if(Config.INSTANCE.sleepRecovery && !b2){
             player.addPotionEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 0));
             return;
@@ -97,24 +99,30 @@ public class EventHandler{
         if(players.size() <= 1){
             return;
         }
-        sendAsleepMessage(players, count, players.size());
+        ServerPlayerEntity sp = (ServerPlayerEntity)player;
+        sendAsleepMessage(players, count, players.size(), sp.getServer().getGameRules().getInt(BetterSleeping.key));
     }
 
     public static void onSleep(PlayerEntity player){
+        if(!(player instanceof ServerPlayerEntity))
+            return;
         List<? extends PlayerEntity> players = player.getEntityWorld().getPlayers();
         long count = players.stream().filter(LivingEntity::isSleeping).count();
         if(players.size() <= 1){
             return;
         }
-        sendAsleepMessage(players, count, players.size());
+        ServerPlayerEntity sp = (ServerPlayerEntity)player;
+        sendAsleepMessage(players, count, players.size(), sp.getServer().getGameRules().getInt(BetterSleeping.key));
     }
 
-    private static void sendAsleepMessage(List<? extends PlayerEntity> players, long asleep, int total){
+    private static void sendAsleepMessage(List<? extends PlayerEntity> players, long asleep, int total, int percentRequired){
         // MessageFormat sleepingFormat = new MessageFormat(Config.INSTANCE.playersAsleepMessage);
         HashMap<String, String> args = new HashMap<>();
         args.put("asleep", NumberFormat.getInstance().format(asleep));
         args.put("total", NumberFormat.getInstance().format(players.size()));
         args.put("percent", NumberFormat.getInstance().format((asleep*100)/players.size()));
+        args.put("required", NumberFormat.getInstance().format(percentRequired*players.size()/100));
+        args.put("percentRequired", NumberFormat.getInstance().format(percentRequired));
         LiteralText sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
         for(String format : Config.INSTANCE.formatting){
             sleepingMessage.formatted(Formatting.byName(format));
