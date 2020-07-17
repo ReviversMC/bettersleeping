@@ -13,6 +13,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.level.ServerWorldProperties;
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import java.text.NumberFormat;
@@ -43,17 +44,17 @@ public class EventHandler{
             world.setTimeOfDay(l - l%24000);
         }
         if(world.getGameRules().getBoolean(GameRules.DO_WEATHER_CYCLE)){
-            world.getLevelProperties().setRainTime(0);
-            world.getLevelProperties().setRaining(false);
-            world.getLevelProperties().setThunderTime(0);
-            world.getLevelProperties().setThundering(false);
+            ((ServerWorldProperties)world.getLevelProperties()).setRainTime(0);
+            ((ServerWorldProperties)world.getLevelProperties()).setRaining(false);
+            ((ServerWorldProperties)world.getLevelProperties()).setThunderTime(0);
+            ((ServerWorldProperties)world.getLevelProperties()).setThundering(false);
         }
         LiteralText skipText = new LiteralText(Config.INSTANCE.nightSkippedMessage);
         for(String format : Config.INSTANCE.formatting){
             skipText.formatted(Formatting.byName(format));
         }
         players.forEach(p->{
-            p.sendMessage(skipText);
+            p.sendSystemMessage(skipText, p.getUuid());
             if(p.isSleeping()){
                 p.wakeUp(false, true);
                 SleepManaged sm = (SleepManaged)p;
@@ -70,7 +71,7 @@ public class EventHandler{
                     for(String format : Config.INSTANCE.formatting){
                         debuffText.formatted(Formatting.byName(format));
                     }
-                    p.sendMessage(debuffText);
+                    p.sendSystemMessage(debuffText, p.getUuid());
                     
                     int nightsAwakeOver = nightsAwake - Config.INSTANCE.nightsBeforeDebuff+1;
                     p.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA,nightsAwakeOver*100));
@@ -126,7 +127,7 @@ public class EventHandler{
             sleepingMessage.formatted(Formatting.byName(format));
         }
         players.forEach(p->{
-            p.sendMessage(sleepingMessage);
+            p.sendSystemMessage(sleepingMessage, p.getUuid());
         });
     }
 }

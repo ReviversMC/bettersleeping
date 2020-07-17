@@ -19,8 +19,8 @@ abstract class ServerPlayerEntityMixin extends PlayerEntity implements SleepMana
 
     private int nightsAwake;
 
-    private ServerPlayerEntityMixin(World world, GameProfile profile){
-        super(world, profile);
+    public ServerPlayerEntityMixin(World world, BlockPos blockPos, GameProfile gameProfile) {
+        super(world, blockPos, gameProfile);
     }
 
     @Override
