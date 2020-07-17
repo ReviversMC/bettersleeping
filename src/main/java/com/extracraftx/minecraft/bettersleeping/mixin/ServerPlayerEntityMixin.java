@@ -30,8 +30,8 @@ abstract class ServerPlayerEntityMixin extends PlayerEntity implements SleepMana
     }
 
     @Inject(method = "wakeUp", at = @At("RETURN"))
-    private void onWakeUp(boolean b1, boolean b2, boolean b3, CallbackInfo info){
-        EventHandler.onWakeup(this, b1, b2, b3);
+    private void onWakeUp(boolean b1, boolean b2, CallbackInfo info){
+        EventHandler.onWakeup(this, b1, b2);
     }
 
     @Override

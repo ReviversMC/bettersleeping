@@ -10,7 +10,7 @@ import net.minecraft.world.GameRules;
 public interface GameRules$IntRuleAccessor{
 
     @Invoker
-    public static GameRules.RuleType<GameRules.IntRule> invokeOf(int defaultValue) {
+    public static GameRules.RuleType<GameRules.IntRule> invokeCreate(int defaultValue) {
         throw new NotImplementedException("Mixin failed");
      }
 
