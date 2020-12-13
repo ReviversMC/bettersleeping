@@ -1,25 +1,23 @@
 package com.extracraftx.minecraft.bettersleeping.events;
 
-import java.text.NumberFormat;
-import java.util.HashMap;
-import java.util.List;
-
 import com.extracraftx.minecraft.bettersleeping.BetterSleeping;
 import com.extracraftx.minecraft.bettersleeping.config.Config;
 import com.extracraftx.minecraft.bettersleeping.interfaces.SleepManaged;
-
-import org.apache.commons.lang3.text.StrSubstitutor;
-
-import net.minecraft.util.Formatting;
-import net.minecraft.world.GameRules;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.LiteralText;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
+import net.minecraft.world.GameRules;
+import org.apache.commons.lang3.text.StrSubstitutor;
+
+import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.List;
 
 public class EventHandler{
     public static void onTick(MinecraftServer server){
@@ -57,7 +55,7 @@ public class EventHandler{
         players.forEach(p->{
             p.sendMessage(skipText);
             if(p.isSleeping()){
-                p.wakeUp(false, false, true);
+                p.wakeUp(false, true);
                 SleepManaged sm = (SleepManaged)p;
                 sm.setNightsAwake(0);
             }else{
@@ -75,23 +73,23 @@ public class EventHandler{
                     p.sendMessage(debuffText);
                     
                     int nightsAwakeOver = nightsAwake - Config.INSTANCE.nightsBeforeDebuff+1;
-                    p.addPotionEffect(new StatusEffectInstance(StatusEffects.NAUSEA,nightsAwakeOver*100));
-                    p.addPotionEffect(new StatusEffectInstance(StatusEffects.SLOWNESS,1000,nightsAwakeOver/2));
-                    p.addPotionEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE,1000,nightsAwakeOver/2));
-                    p.addPotionEffect(new StatusEffectInstance(StatusEffects.WEAKNESS,1000,nightsAwakeOver/2));
+                    p.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA,nightsAwakeOver*100));
+                    p.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS,1000,nightsAwakeOver/2));
+                    p.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE,1000,nightsAwakeOver/2));
+                    p.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS,1000,nightsAwakeOver/2));
                     if(nightsAwakeOver > 2){
-                        p.addPotionEffect(new StatusEffectInstance(StatusEffects.BLINDNESS,500));
+                        p.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS,500));
                     }
                 }
             }
         });
     }
 
-    public static void onWakeup(PlayerEntity player, boolean b1, boolean b2, boolean b3){
+    public static void onWakeup(PlayerEntity player, boolean b1, boolean b2){
         if(!(player instanceof ServerPlayerEntity))
             return;
         if(Config.INSTANCE.sleepRecovery && !b2){
-            player.addPotionEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 0));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 0));
             return;
         }
         List<? extends PlayerEntity> players = player.getEntityWorld().getPlayers();

@@ -1,10 +1,9 @@
 package com.extracraftx.minecraft.bettersleeping.mixin;
 
+import net.minecraft.world.GameRules;
 import org.apache.commons.lang3.NotImplementedException;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
-import net.minecraft.world.GameRules;
 
 @Mixin(GameRules.class)
 class GameRulesMixin{
@@ -15,7 +14,7 @@ class GameRulesMixin{
     }
 
     static{
-        register("percentRequiredToSleep",GameRules$IntRuleAccessor.invokeOf(50));
+        register("percentRequiredToSleep",GameRules$IntRuleAccessor.invokeCreate(50));
     }
 
 }
