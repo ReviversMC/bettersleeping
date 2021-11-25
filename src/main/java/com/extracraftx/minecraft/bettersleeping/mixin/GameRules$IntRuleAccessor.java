@@ -9,9 +9,9 @@ import net.minecraft.world.GameRules;
 @Mixin(GameRules.IntRule.class)
 public interface GameRules$IntRuleAccessor{
 
-    @Invoker
-    static GameRules.Type<GameRules.IntRule> invokeCreate(int defaultValue) {
-        throw new NotImplementedException("Mixin failed");
-    }
+   // @Invoker
+    //static GameRules.Type<GameRules.IntRule> invokeCreate(int defaultValue) {
+     //   throw new NotImplementedException("Mixin failed");
+  //  }
 
 }

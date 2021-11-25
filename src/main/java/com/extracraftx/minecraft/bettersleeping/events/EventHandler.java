@@ -22,7 +22,7 @@ import java.util.List;
 
 public class EventHandler{
     public static void onTick(MinecraftServer server){
-        int percent = server.getGameRules().getInt(BetterSleeping.key);
+        int percent = server.getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
         if(percent >= 100 || percent <= 0)
             return;
         server.getWorlds().forEach((world)->{
@@ -99,7 +99,7 @@ public class EventHandler{
             return;
         }
         ServerPlayerEntity sp = (ServerPlayerEntity)player;
-        sendAsleepMessage(players, count, players.size(), sp.getServer().getGameRules().getInt(BetterSleeping.key));
+        sendAsleepMessage(players, count, players.size(), sp.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
     }
 
     public static void onSleep(PlayerEntity player){
@@ -111,7 +111,7 @@ public class EventHandler{
             return;
         }
         ServerPlayerEntity sp = (ServerPlayerEntity)player;
-        sendAsleepMessage(players, count, players.size(), sp.getServer().getGameRules().getInt(BetterSleeping.key));
+        sendAsleepMessage(players, count, players.size(), sp.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
     }
 
     private static void sendAsleepMessage(List<? extends PlayerEntity> players, long asleep, int total, int percentRequired){

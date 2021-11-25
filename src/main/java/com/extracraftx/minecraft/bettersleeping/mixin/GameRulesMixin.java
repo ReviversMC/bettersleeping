@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public
 interface GameRulesMixin {
 
-    @Invoker
-    static <T extends GameRules.Rule<T>> GameRules.Key<T> invokeRegister(String name, GameRules.Category category, GameRules.Type<T> type) {
-        throw new NotImplementedException("GameRules mixin failed");
-    }
+   // @Invoker
+   // static <T extends GameRules.Rule<T>> GameRules.Key<T> invokeRegister(String name, GameRules.Category category, GameRules.Type<T> type) {
+   //     throw new NotImplementedException("GameRules mixin failed");
+   // }
 
 }
