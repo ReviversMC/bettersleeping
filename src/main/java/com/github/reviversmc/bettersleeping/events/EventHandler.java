@@ -117,11 +117,15 @@ public class EventHandler {
         args.put("percent",         NumberFormat.getInstance().format((asleep * 100) / players.size()));
         args.put("required",        NumberFormat.getInstance().format(sleepManager.getNightSkippingRequirement(percentRequired)));
         args.put("percentRequired", NumberFormat.getInstance().format(percentRequired));
+
         LiteralText sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
         for (String format : Config.INSTANCE.formatting) {
             sleepingMessage.formatted(Formatting.byName(format));
         }
         players.forEach(player -> {
+            if (!(player instanceof ServerPlayerEntity)) {
+                return;
+            }
             player.sendSystemMessage(sleepingMessage, player.getUuid());
         });
     }
