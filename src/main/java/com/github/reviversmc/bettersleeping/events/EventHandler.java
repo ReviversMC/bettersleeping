@@ -29,18 +29,22 @@ public class EventHandler {
         if (percentage >= 100 || percentage <= 0) {
             return;
         }
-        server.getWorlds().forEach((world) -> {
+        for (ServerWorld world : server.getWorlds()) {
+            if (world.getDimension().isBedWorking() == false) {
+                continue;
+            }
+
             List<ServerPlayerEntity> players = world.getPlayers();
-            int count = 0;
-            for (PlayerEntity p : players) {
-                if (p.isSleeping() && p.isSleepingLongEnough()) {
-                    count++;
+            int sleepingPlayerCount = 0;
+            for (PlayerEntity player : players) {
+                if (player.isSleeping() && player.isSleepingLongEnough()) {
+                    sleepingPlayerCount++;
                 }
             }
-            if (count != players.size() && (count * 100 / players.size()) >= percentage) {
+            if (sleepingPlayerCount != players.size() && (sleepingPlayerCount * 100 / players.size()) >= percentage) {
                 skipNight(world, players);
             }
-        });
+        }
     }
 
     private static void skipNight(ServerWorld world, List<ServerPlayerEntity> players) {
