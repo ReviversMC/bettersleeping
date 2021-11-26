@@ -1,7 +1,6 @@
 package com.github.reviversmc.bettersleeping.mixin;
 
 import com.github.reviversmc.bettersleeping.events.EventHandler;
-import com.github.reviversmc.bettersleeping.interfaces.ManagedPlayer;
 import com.mojang.authlib.GameProfile;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,11 +14,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 @Mixin(ServerPlayerEntity.class)
-abstract class ServerPlayerEntityMixin extends PlayerEntity implements ManagedPlayer {
-    private int nightsAwake;
+public abstract class ServerPlayerEntityMixin extends PlayerEntity {
 
-    public ServerPlayerEntityMixin(World world, BlockPos blockPos, GameProfile gameProfile) {
-        super(world, blockPos, 1.0F, gameProfile);
+    public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile profile) {
+        super(world, pos, yaw, profile);
     }
 
     @Inject(method = "sleep", at = @At("TAIL"))
@@ -28,23 +26,8 @@ abstract class ServerPlayerEntityMixin extends PlayerEntity implements ManagedPl
     }
 
     @Inject(method = "wakeUp", at = @At("RETURN"))
-    private void onWakeUp(boolean b1, boolean b2, CallbackInfo callbackInfo) {
-        EventHandler.onWakeup(this, b1, b2);
-    }
-
-    @Override
-    public int getNightsAwake() {
-        return nightsAwake;
-    }
-
-    @Override
-    public void setNightsAwake(int nights) {
-        this.nightsAwake = nights;
-    }
-
-    @Override
-    public void incrementNightsAwake(int amount) {
-        this.nightsAwake += amount;
+    private void onWakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo callbackInfo) {
+        EventHandler.onWakeup(this, updateSleepingPlayers);
     }
 
 }

@@ -1,17 +1,20 @@
 {
 	"cSpell.enabled": true,
 	"cSpell.words": [
-		"bettersleeping",
-		"Debuff",
-		"entrypoints",
-		"ExtraCrafTX",
-		"fabricloader",
-		"Gson",
-		"Minecraft",
-		"Modrinth",
-		"NebelNidas",
-		"reviversmc"
-	],
+        "bettersleeping",
+        "Debuff",
+        "Debuffs",
+        "entrypoints",
+        "ExtraCrafTX",
+        "fabricloader",
+        "Gson",
+        "laggy",
+        "Minecraft",
+        "Modrinth",
+        "NebelNidas",
+        "reviversmc",
+        "Substitutor"
+    ],
 	"java.configuration.updateBuildConfiguration": "automatic",
-	"editor.bracketPairColorization.enabled": true
+    "editor.bracketPairColorization.enabled": true
 }
