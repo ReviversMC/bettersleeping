@@ -3,9 +3,7 @@
   "package": "com.github.reviversmc.bettersleeping.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "ServerPlayerEntityMixin",
-    "GameRulesMixin",
-    "GameRules$IntRuleAccessor"
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
