@@ -98,17 +98,10 @@ public class EventHandler {
         if (!(player instanceof ServerPlayerEntity)) {
             return;
         }
-        if (Config.INSTANCE.sleepRecovery && !b2) {
+        if (Config.INSTANCE.sleepRecovery && b2 == false) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 0));
             return;
         }
-        List<? extends PlayerEntity> players = player.getEntityWorld().getPlayers();
-        long count = players.stream().filter(LivingEntity::isSleeping).count();
-        if (players.size() <= 1) {
-            return;
-        }
-        ServerPlayerEntity serverPlayer = (ServerPlayerEntity)player;
-        sendAsleepMessage(players, count, players.size(), serverPlayer.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
     }
 
 
@@ -117,12 +110,12 @@ public class EventHandler {
             return;
         }
         List<? extends PlayerEntity> players = player.getEntityWorld().getPlayers();
-        long count = players.stream().filter(LivingEntity::isSleeping).count();
+        long sleepingPlayerCount = players.stream().filter(LivingEntity::isSleeping).count();
         if (players.size() <= 1) {
             return;
         }
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity)player;
-        sendAsleepMessage(players, count, players.size(), serverPlayer.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
+        sendAsleepMessage(players, sleepingPlayerCount, players.size(), serverPlayer.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
     }
 
 
