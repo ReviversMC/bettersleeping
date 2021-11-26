@@ -22,11 +22,12 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.level.ServerWorldProperties;
 
 public class EventHandler {
+    static int percentageToSkipNight = 50;
 
     public static void onTick(MinecraftServer server) {
-        int percentage = server.getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
+        percentageToSkipNight = server.getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
 
-        if (percentage >= 100 || percentage <= 0) {
+        if (percentageToSkipNight >= 100 || percentageToSkipNight <= 0) {
             return;
         }
         for (ServerWorld world : server.getWorlds()) {
@@ -41,7 +42,9 @@ public class EventHandler {
                     sleepingPlayerCount++;
                 }
             }
-            if (sleepingPlayerCount != players.size() && (sleepingPlayerCount * 100 / players.size()) >= percentage) {
+            if (sleepingPlayerCount > 0
+                    && sleepingPlayerCount != players.size()
+                    && (sleepingPlayerCount * 100 / players.size()) >= percentageToSkipNight) {
                 skipNight(world, players);
             }
         }
@@ -118,8 +121,7 @@ public class EventHandler {
         if (players.size() <= 1) {
             return;
         }
-        ServerPlayerEntity serverPlayer = (ServerPlayerEntity)player;
-        sendAsleepMessage(players, sleepingPlayerCount, players.size(), serverPlayer.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE));
+        sendAsleepMessage(players, sleepingPlayerCount, players.size(), percentageToSkipNight);
     }
 
 
@@ -132,7 +134,7 @@ public class EventHandler {
         args.put("required",        NumberFormat.getInstance().format(percentRequired * players.size() / 100));
         args.put("percentRequired", NumberFormat.getInstance().format(percentRequired));
         LiteralText sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
-        for(String format : Config.INSTANCE.formatting) {
+        for (String format : Config.INSTANCE.formatting) {
             sleepingMessage.formatted(Formatting.byName(format));
         }
         players.forEach(player -> {
