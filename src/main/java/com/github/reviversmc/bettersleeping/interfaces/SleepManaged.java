@@ -1,4 +1,4 @@
-package com.extracraftx.minecraft.bettersleeping.interfaces;
+package com.github.reviversmc.bettersleeping.interfaces;
 
 public interface SleepManaged{
     public int getNightsAwake();

@@ -1,8 +1,5 @@
-package com.extracraftx.minecraft.bettersleeping.events;
+package com.github.reviversmc.bettersleeping.events;
 
-import com.extracraftx.minecraft.bettersleeping.BetterSleeping;
-import com.extracraftx.minecraft.bettersleeping.config.Config;
-import com.extracraftx.minecraft.bettersleeping.interfaces.SleepManaged;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -19,6 +16,10 @@ import org.apache.commons.lang3.text.StrSubstitutor;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
+
+import com.github.reviversmc.bettersleeping.BetterSleeping;
+import com.github.reviversmc.bettersleeping.config.Config;
+import com.github.reviversmc.bettersleeping.interfaces.SleepManaged;
 
 public class EventHandler{
     public static void onTick(MinecraftServer server){

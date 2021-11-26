@@ -1,4 +1,4 @@
-package com.extracraftx.minecraft.bettersleeping.mixin;
+package com.github.reviversmc.bettersleeping.mixin;
 
 import net.minecraft.world.GameRules;
 import org.apache.commons.lang3.NotImplementedException;

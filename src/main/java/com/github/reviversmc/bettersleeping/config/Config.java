@@ -1,4 +1,4 @@
-package com.extracraftx.minecraft.bettersleeping.config;
+package com.github.reviversmc.bettersleeping.config;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,8 +1,9 @@
-package com.extracraftx.minecraft.bettersleeping;
+package com.github.reviversmc.bettersleeping;
 
-import com.extracraftx.minecraft.bettersleeping.config.Config;
-import com.extracraftx.minecraft.bettersleeping.events.EventHandler;
-import com.extracraftx.minecraft.bettersleeping.mixin.GameRules$IntRuleAccessor;
+import com.github.reviversmc.bettersleeping.config.Config;
+import com.github.reviversmc.bettersleeping.events.EventHandler;
+import com.github.reviversmc.bettersleeping.mixin.GameRules$IntRuleAccessor;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.world.GameRules;

@@ -6,20 +6,22 @@
   "name": "Better Sleeping",
   "description": "This mod adds sleep voting, gives sleeping players buffs and players who don't sleep debuffs!",
   "authors": [
+    "NebelNidas",
+    "TacoMonkey",
     "ExtraCrafTX"
   ],
   "contact": {
-    "homepage": "https://minecraft.curseforge.com/projects/bettersleeping",
-    "issues": "https://minecraft.curseforge.com/projects/bettersleeping/issues"
+    "homepage": "https://github.com/ReviversMC/better-sleeping",
+    "issues": "https://github.com/ReviversMC/better-sleeping/issues"
   },
 
-  "license": "CC BY-NC-SA 4.0",
+  "license": "LGPL-3.0-or-later",
   "icon": "assets/bettersleeping/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.extracraftx.minecraft.bettersleeping.BetterSleeping"
+      "com.github.reviversmc.bettersleeping.BetterSleeping"
     ]
   },
   "mixins": [

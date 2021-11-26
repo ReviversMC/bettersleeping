@@ -1,4 +1,4 @@
-package com.extracraftx.minecraft.bettersleeping.mixin;
+package com.github.reviversmc.bettersleeping.mixin;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.spongepowered.asm.mixin.Mixin;

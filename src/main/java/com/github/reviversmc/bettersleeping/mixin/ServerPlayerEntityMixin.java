@@ -1,7 +1,7 @@
-package com.extracraftx.minecraft.bettersleeping.mixin;
+package com.github.reviversmc.bettersleeping.mixin;
 
-import com.extracraftx.minecraft.bettersleeping.events.EventHandler;
-import com.extracraftx.minecraft.bettersleeping.interfaces.SleepManaged;
+import com.github.reviversmc.bettersleeping.events.EventHandler;
+import com.github.reviversmc.bettersleeping.interfaces.SleepManaged;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
