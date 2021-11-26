@@ -78,7 +78,6 @@ public class EventHandler {
                 managedPlayer.incrementNightsAwake(1);
                 int nightsAwake = managedPlayer.getNightsAwake();
                 if (Config.INSTANCE.awakeDebuff && nightsAwake >= Config.INSTANCE.nightsBeforeDebuff) {
-                    // MessageFormat awakeFormat = new MessageFormat(Config.INSTANCE.debuffMessage);
                     HashMap<String, String> args = new HashMap<>();
                     args.put("nights", NumberFormat.getInstance().format(nightsAwake));
                     LiteralText debuffText = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.debuffMessage, args, "{", "}"));
@@ -126,7 +125,6 @@ public class EventHandler {
 
 
     private static void sendAsleepMessage(List<? extends PlayerEntity> players, long asleep, int total, int percentRequired) {
-        // MessageFormat sleepingFormat = new MessageFormat(Config.INSTANCE.playersAsleepMessage);
         HashMap<String, String> args = new HashMap<>();
         args.put("asleep",          NumberFormat.getInstance().format(asleep));
         args.put("total",           NumberFormat.getInstance().format(players.size()));
