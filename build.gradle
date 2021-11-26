@@ -64,6 +64,9 @@ dependencies {
     include modImplementation(fabricApi.module("fabric-api-base", project.fabric_version))
     include modImplementation(fabricApi.module("fabric-lifecycle-events-v1", project.fabric_version))
 
+    // Apache Commons Text
+    include implementation("org.apache.commons:commons-text:${project.commons_text_version}")
+
     compileOnly "com.github.spotbugs:spotbugs:${project.spotbugs_version}"
 
 
