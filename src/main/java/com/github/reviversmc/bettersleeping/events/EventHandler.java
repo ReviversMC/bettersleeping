@@ -134,7 +134,14 @@ public class EventHandler {
         args.put("required",        NumberFormat.getInstance().format(sleepManager.getNightSkippingRequirement(percentageToSkipNight)));
         args.put("percentRequired", NumberFormat.getInstance().format(percentageToSkipNight));
 
-        LiteralText sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
+        LiteralText sleepingMessage;
+        int sleepingPlayerCountNeeded = sleepManager.getNightSkippingRequirement(percentageToSkipNight);
+        if (sleepingPlayerCount >= sleepingPlayerCountNeeded) {
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
+        } else {
+            args.put("additionalNeeded", NumberFormat.getInstance().format(sleepingPlayerCountNeeded - sleepingPlayerCount));
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.notEnoughPlayersAsleepMessage, args, "{", "}"));
+        }
         for (String format : Config.INSTANCE.formatting) {
             sleepingMessage.formatted(Formatting.byName(format));
         }

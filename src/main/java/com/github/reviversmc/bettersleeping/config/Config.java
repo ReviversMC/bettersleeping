@@ -11,6 +11,7 @@ public class Config {
     public String nightSkippedMessage = "Rise and shine!";
     public String debuffMessage = "You have been awake for {nights} nights and have been given a debuff.";
     public String playersAsleepMessage = "{asleep}/{total} ({percent}%) players are now sleeping!";
+    public String notEnoughPlayersAsleepMessage = "{asleep}/{total} ({percent}%) players are now sleeping. {additionalNeeded} more are needed to skip the night!";
     public String[] formatting = new String[] {"gold"};
     public boolean awakeDebuff = true;
     public int nightsBeforeDebuff = 2;
