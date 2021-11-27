@@ -37,7 +37,7 @@ public class EventHandler {
                 List<ServerPlayerEntity> players = world.getPlayers();
                 for (ServerPlayerEntity player : players) {
                     int nightsAwake = player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST)) / 24000;
-                    if (Config.INSTANCE.awakeDebuff && nightsAwake >= Config.INSTANCE.nightsBeforeDebuff) {
+                    if (Config.INSTANCE.awakeDebuff && nightsAwake > Config.INSTANCE.nightsBeforeDebuff) {
                         applyDebuffs(player, nightsAwake);
                     }
                 }
