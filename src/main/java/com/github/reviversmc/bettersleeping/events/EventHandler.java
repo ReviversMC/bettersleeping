@@ -15,22 +15,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.server.world.SleepManager;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 public class EventHandler {
-    private static final SleepManager sleepManager = new SleepManager();
-    private static int percentageToSkipNight;
-
 
     public static void onTick(MinecraftServer server) {
-        // Get required percentage of sleeping players to skip the night
-        percentageToSkipNight = server.getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
-
         // Apply debuffs every morning to everyone who hasn't slept in a while
         for (ServerWorld world : server.getWorlds()) {
             if (world.getTimeOfDay() % 24000 == 1) {
@@ -122,25 +116,27 @@ public class EventHandler {
 
     private static void sendAsleepMessage(World world) {
         List<? extends PlayerEntity> players = world.getPlayers();
-        long sleepingPlayerCount = players.stream().filter(LivingEntity::isSleeping).count();
+        int sleepingPlayerCount = (int)players.stream().filter(LivingEntity::isSleeping).count();
         if (players.size() <= 1) {
             return;
         }
+
+        int percentageToSkipNight = world.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
+        int additionallyNeeded = MathHelper.ceil((float)(players.size() * percentageToSkipNight / 100.0f)) - sleepingPlayerCount;
 
         HashMap<String, String> args = new HashMap<>();
         args.put("asleep",          NumberFormat.getInstance().format(sleepingPlayerCount));
         args.put("total",           NumberFormat.getInstance().format(players.size()));
         args.put("percent",         NumberFormat.getInstance().format((sleepingPlayerCount * 100) / players.size()));
-        args.put("required",        NumberFormat.getInstance().format(sleepManager.getNightSkippingRequirement(percentageToSkipNight)));
+        args.put("required",        NumberFormat.getInstance().format(players.size() / percentageToSkipNight * 10));
         args.put("percentRequired", NumberFormat.getInstance().format(percentageToSkipNight));
 
         LiteralText sleepingMessage;
-        int sleepingPlayerCountNeeded = sleepManager.getNightSkippingRequirement(percentageToSkipNight);
-        if (sleepingPlayerCount >= sleepingPlayerCountNeeded) {
-            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
-        } else {
-            args.put("additionalNeeded", NumberFormat.getInstance().format(sleepingPlayerCountNeeded - sleepingPlayerCount));
+        if (additionallyNeeded > 0) {
+            args.put("additionallyNeeded", NumberFormat.getInstance().format(additionallyNeeded));
             sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.notEnoughPlayersAsleepMessage, args, "{", "}"));
+        } else {
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
         }
         for (String format : Config.INSTANCE.formatting) {
             sleepingMessage.formatted(Formatting.byName(format));
@@ -150,6 +146,8 @@ public class EventHandler {
                 return;
             }
             player.sendSystemMessage(sleepingMessage, player.getUuid());
+            player.sendSystemMessage(new LiteralText("sleepingPlayerCount: " + sleepingPlayerCount), player.getUuid());
+            player.sendSystemMessage(new LiteralText("additionallyNeeded: " + additionallyNeeded), player.getUuid());
         });
     }
 
