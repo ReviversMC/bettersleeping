@@ -82,18 +82,18 @@ dependencies {
         }
 
         modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-        modRuntimeOnly "fr.catcore:server-translations-api:${project.server_translations_version}"
-        modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+        // modRuntimeOnly "fr.catcore:server-translations-api:${project.server_translations_version}"
+        // modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
         // modRuntimeOnly "maven.modrinth:dynamic-fps:${project.dynamic_fps_version}"
         // modRuntimeOnly "maven.modrinth:ebe:${project.ebe_version}"
-        modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version}"
+        // modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version}"
         // modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version}"
-        modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version}"
+        // modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version}"
         // modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version}"
         // modRuntimeOnly "maven.modrinth:resolution-control-plus:${project.resolution_control_version}"
         // modRuntimeOnly "curse.maven:resolution-control-plus-446974:3206545"
         // modRuntimeOnly "curse.maven:smooth-boot-415758:3248104"
-        modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version}"
+        // modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version}"
         // modRuntimeOnly "maven.modrinth:sodium:${project.sodium_version}"
 
         // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
