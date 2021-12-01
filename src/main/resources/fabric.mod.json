@@ -7,6 +7,7 @@
     "authors": [
         "NebelNidas",
         "TacoMonkey",
+        "thefirethirteen",
         "ExtraCrafTX"
     ],
     "contact": {
@@ -28,6 +29,6 @@
         "fabricloader": ">=0.7.4",
         "fabric-api-base": "*",
         "fabric-lifecycle-events-v1": "*",
-        "minecraft": ">=1.17"
+        "minecraft": ">=1.18"
     }
 }
