@@ -1,36 +1,34 @@
 {
-  "schemaVersion": 1,
-  "id": "bettersleeping",
-  "version": "0.4.0",
-
-  "name": "Better Sleeping",
-  "description": "This mod adds sleep voting, gives sleeping players buffs and players who don't sleep debuffs!",
-  "authors": [
-    "NebelNidas",
-    "TacoMonkey",
-    "thefirethirteen",
-    "ExtraCrafTX"
-  ],
-  "contact": {
-    "homepage": "https://github.com/ReviversMC/better-sleeping",
-    "issues": "https://github.com/ReviversMC/better-sleeping/issues"
-  },
-
-  "license": "LGPL-3.0-or-later",
-  "icon": "assets/bettersleeping/icon.png",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "com.github.reviversmc.bettersleeping.BetterSleeping"
-    ]
-  },
-  "mixins": [
-    "bettersleeping.mixins.json"
-  ],
-
-  "requires": {
-    "fabricloader": ">=0.4.0",
-    "fabric": "*"
-  }
+    "schemaVersion": 1,
+    "id": "bettersleeping",
+    "version": "${version}",
+    "name": "Better Sleeping",
+    "description": "This mod adds sleep notifications, gives sleeping players buffs and debuffs to the ones who haven't slept in a long time!",
+    "authors": [
+        "NebelNidas",
+        "TacoMonkey",
+        "thefirethirteen",
+        "ExtraCrafTX"
+    ],
+    "contact": {
+        "homepage": "https://github.com/ReviversMC/better-sleeping",
+        "issues": "https://github.com/ReviversMC/better-sleeping/issues"
+    },
+    "icon": "assets/bettersleeping/icon.png",
+    "license": "CC-BY-NC-SA-4.0",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.github.reviversmc.bettersleeping.BetterSleeping"
+        ]
+    },
+    "mixins": [
+        "bettersleeping.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.7.4",
+        "fabric-api-base": "*",
+        "fabric-lifecycle-events-v1": "*",
+        "minecraft": ">=1.18"
+    }
 }

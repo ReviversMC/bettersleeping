@@ -15,29 +15,23 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.server.world.SleepManager;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 
 public class EventHandler {
-    private static final SleepManager sleepManager = new SleepManager();
-    private static int percentageToSkipNight;
-
 
     public static void onTick(MinecraftServer server) {
-        // Get required percentage of sleeping players to skip the night
-        percentageToSkipNight = server.getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
-
         // Apply debuffs every morning to everyone who hasn't slept in a while
         for (ServerWorld world : server.getWorlds()) {
-            // Accept a range of time in case the server is laggy and ticks get skipped
-            if (world.getTimeOfDay() > 0 && world.getTimeOfDay() < 100) {
+            if (world.getTimeOfDay() % 24000 == 1) {
                 List<ServerPlayerEntity> players = world.getPlayers();
                 for (ServerPlayerEntity player : players) {
                     int nightsAwake = player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST)) / 24000;
-                    if (Config.INSTANCE.awakeDebuff && nightsAwake >= Config.INSTANCE.nightsBeforeDebuff) {
+                    if (Config.INSTANCE.awakeDebuff && nightsAwake > Config.INSTANCE.nightsBeforeDebuff) {
                         applyDebuffs(player, nightsAwake);
                     }
                 }
@@ -48,7 +42,7 @@ public class EventHandler {
 
 
     private static void applyDebuffs(ServerPlayerEntity player, int nightsAwake) {
-        int nightsAwakeToPunish = nightsAwake - Config.INSTANCE.nightsBeforeDebuff + 1;
+        int nightsAwakeToPunish = nightsAwake - Config.INSTANCE.nightsBeforeDebuff;
         if (nightsAwakeToPunish	< 1) {
             return;
         }
@@ -60,15 +54,17 @@ public class EventHandler {
         for (String format : Config.INSTANCE.formatting) {
             debuffText.formatted(Formatting.byName(format));
         }
+        player.sendSystemMessage(debuffText, player.getUuid());
 
         // Apply debuffs
-        player.sendSystemMessage(debuffText, player.getUuid());
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA,           nightsAwakeToPunish * 100));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS,         nightsAwakeToPunish * 100, nightsAwakeToPunish / 2));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE,   nightsAwakeToPunish * 100, nightsAwakeToPunish / 2));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS,         nightsAwakeToPunish * 100, nightsAwakeToPunish / 2));
-        if (nightsAwakeToPunish > 2) {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS,    nightsAwakeToPunish * 100));
+        int duration = Math.min(24100, 200 + 80 * (nightsAwakeToPunish * nightsAwakeToPunish));
+        int amplifier = Math.min(2, (nightsAwakeToPunish * nightsAwakeToPunish) / 10);
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA,           duration, 0));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS,         duration, amplifier));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS,         duration, amplifier));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE,   duration, Math.min(1, amplifier / 2)));
+        if (nightsAwakeToPunish >= 3) {
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS,    duration / 3, 0));
         }
     }
 
@@ -80,12 +76,7 @@ public class EventHandler {
         }
 
         // Send asleep message to every player
-        List<? extends PlayerEntity> players = player.getEntityWorld().getPlayers();
-        long sleepingPlayerCount = players.stream().filter(LivingEntity::isSleeping).count();
-        if (players.size() <= 1) {
-            return;
-        }
-        sendAsleepMessage(players, sleepingPlayerCount, players.size(), percentageToSkipNight);
+        sendAsleepMessage(player.getEntityWorld());
     }
 
 
@@ -94,10 +85,23 @@ public class EventHandler {
         if (!(player instanceof ServerPlayerEntity)) {
             return;
         }
+        if (player.getEntityWorld().getTimeOfDay() % 24000 > 12010) {
+            // Player has aborted the sleeping process, since it is still night
+            // Resend asleep message to every player
+            sendAsleepMessage(player.getEntityWorld());
+            return;
+        }
 
-        // Apply positive effect
+        // Remove debuffs
+        player.removeStatusEffect(StatusEffects.NAUSEA);
+        player.removeStatusEffect(StatusEffects.SLOWNESS);
+        player.removeStatusEffect(StatusEffects.WEAKNESS);
+        player.removeStatusEffect(StatusEffects.MINING_FATIGUE);
+        player.removeStatusEffect(StatusEffects.BLINDNESS);
+
+        // Apply buffs
         if (Config.INSTANCE.sleepRecovery) {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 0));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 1));
         }
 
         // Send good morning message
@@ -110,19 +114,40 @@ public class EventHandler {
 
 
 
-    private static void sendAsleepMessage(List<? extends PlayerEntity> players, long asleep, int total, int percentRequired) {
+    private static void sendAsleepMessage(World world) {
+        List<? extends PlayerEntity> players = world.getPlayers();
+        int sleepingPlayerCount = (int)players.stream().filter(LivingEntity::isSleeping).count();
+        if (players.size() <= 1) {
+            return;
+        }
+
+        int percentageToSkipNight = world.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
+        int additionallyNeeded = MathHelper.ceil((float)(players.size() * percentageToSkipNight / 100.0f)) - sleepingPlayerCount;
+
         HashMap<String, String> args = new HashMap<>();
-        args.put("asleep",          NumberFormat.getInstance().format(asleep));
+        args.put("asleep",          NumberFormat.getInstance().format(sleepingPlayerCount));
         args.put("total",           NumberFormat.getInstance().format(players.size()));
-        args.put("percent",         NumberFormat.getInstance().format((asleep * 100) / players.size()));
-        args.put("required",        NumberFormat.getInstance().format(sleepManager.getNightSkippingRequirement(percentRequired)));
-        args.put("percentRequired", NumberFormat.getInstance().format(percentRequired));
-        LiteralText sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
+        args.put("percent",         NumberFormat.getInstance().format((sleepingPlayerCount * 100) / players.size()));
+        args.put("required",        NumberFormat.getInstance().format(players.size() / percentageToSkipNight * 10));
+        args.put("percentRequired", NumberFormat.getInstance().format(percentageToSkipNight));
+
+        LiteralText sleepingMessage;
+        if (additionallyNeeded > 0) {
+            args.put("additionallyNeeded", NumberFormat.getInstance().format(additionallyNeeded));
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.notEnoughPlayersAsleepMessage, args, "{", "}"));
+        } else {
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
+        }
         for (String format : Config.INSTANCE.formatting) {
             sleepingMessage.formatted(Formatting.byName(format));
         }
         players.forEach(player -> {
+            if (!(player instanceof ServerPlayerEntity)) {
+                return;
+            }
             player.sendSystemMessage(sleepingMessage, player.getUuid());
+            player.sendSystemMessage(new LiteralText("sleepingPlayerCount: " + sleepingPlayerCount), player.getUuid());
+            player.sendSystemMessage(new LiteralText("additionallyNeeded: " + additionallyNeeded), player.getUuid());
         });
     }
 
