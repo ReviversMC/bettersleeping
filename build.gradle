@@ -82,8 +82,8 @@ dependencies {
         }
 
         modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-        // modRuntimeOnly "fr.catcore:server-translations-api:${project.server_translations_version}"
-        // modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+        modRuntimeOnly "fr.catcore:server-translations-api:${project.server_translations_version}"
+        modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
         // modRuntimeOnly "maven.modrinth:dynamic-fps:${project.dynamic_fps_version}"
         // modRuntimeOnly "maven.modrinth:ebe:${project.ebe_version}"
         // modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version}"
