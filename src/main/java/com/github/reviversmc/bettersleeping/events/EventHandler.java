@@ -121,19 +121,20 @@ public class EventHandler {
             return;
         }
 
-        int percentageToSkipNight = world.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
-        int additionallyNeeded = MathHelper.ceil((float)(players.size() * percentageToSkipNight / 100.0f)) - sleepingPlayerCount;
+        int percentageNeededToSkipNight = world.getServer().getGameRules().getInt(GameRules.PLAYERS_SLEEPING_PERCENTAGE);
+        int playersNeededToSkipNight = MathHelper.ceil((players.size() * percentageNeededToSkipNight / 100.0f));
+        int playersAdditionallyNeeded = playersNeededToSkipNight - sleepingPlayerCount;
 
         HashMap<String, String> args = new HashMap<>();
         args.put("asleep",          NumberFormat.getInstance().format(sleepingPlayerCount));
         args.put("total",           NumberFormat.getInstance().format(players.size()));
         args.put("percent",         NumberFormat.getInstance().format((sleepingPlayerCount * 100) / players.size()));
-        args.put("required",        NumberFormat.getInstance().format(players.size() / percentageToSkipNight * 10));
-        args.put("percentRequired", NumberFormat.getInstance().format(percentageToSkipNight));
+        args.put("required",        NumberFormat.getInstance().format(playersNeededToSkipNight));
+        args.put("percentRequired", NumberFormat.getInstance().format(percentageNeededToSkipNight));
 
         LiteralText sleepingMessage;
-        if (additionallyNeeded > 0) {
-            args.put("additionallyNeeded", NumberFormat.getInstance().format(additionallyNeeded));
+        if (playersAdditionallyNeeded > 0) {
+            args.put("additionallyNeeded", NumberFormat.getInstance().format(playersAdditionallyNeeded));
             sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.notEnoughPlayersAsleepMessage, args, "{", "}"));
         } else {
             sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
@@ -147,7 +148,8 @@ public class EventHandler {
             }
             player.sendSystemMessage(sleepingMessage, player.getUuid());
             player.sendSystemMessage(new LiteralText("sleepingPlayerCount: " + sleepingPlayerCount), player.getUuid());
-            player.sendSystemMessage(new LiteralText("additionallyNeeded: " + additionallyNeeded), player.getUuid());
+            player.sendSystemMessage(new LiteralText("playersNeededToSkipNight: " + playersNeededToSkipNight), player.getUuid());
+            player.sendSystemMessage(new LiteralText("playersAdditionallyNeeded: " + playersAdditionallyNeeded), player.getUuid());
         });
     }
 
