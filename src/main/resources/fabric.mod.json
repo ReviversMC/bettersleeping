@@ -2,7 +2,7 @@
     "schemaVersion": 1,
     "id": "bettersleeping",
     "version": "${version}",
-    "name": "Better Sleeping",
+    "name": "BetterSleeping",
     "description": "This mod adds sleep notifications, gives sleeping players buffs and debuffs to the ones who haven't slept in a long time!",
     "authors": [
         "NebelNidas",
