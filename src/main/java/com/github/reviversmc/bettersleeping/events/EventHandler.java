@@ -147,9 +147,6 @@ public class EventHandler {
                 return;
             }
             player.sendSystemMessage(sleepingMessage, player.getUuid());
-            player.sendSystemMessage(new LiteralText("sleepingPlayerCount: " + sleepingPlayerCount), player.getUuid());
-            player.sendSystemMessage(new LiteralText("playersNeededToSkipNight: " + playersNeededToSkipNight), player.getUuid());
-            player.sendSystemMessage(new LiteralText("playersAdditionallyNeeded: " + playersAdditionallyNeeded), player.getUuid());
         });
     }
 
