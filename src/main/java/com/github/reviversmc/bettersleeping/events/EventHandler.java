@@ -25,13 +25,19 @@ import net.minecraft.world.World;
 public class EventHandler {
 
     public static void onTick(MinecraftServer server) {
+        if (Config.INSTANCE.awakeDebuff == false) {
+            return;
+        }
         // Apply debuffs every morning to everyone who hasn't slept in a while
         for (ServerWorld world : server.getWorlds()) {
             if (world.getTimeOfDay() % 24000 == 1) {
                 List<ServerPlayerEntity> players = world.getPlayers();
+                if (players.size() <= 1 && Config.INSTANCE.applyDebuffWhenAloneOnServer == false) {
+                    return;
+                }
                 for (ServerPlayerEntity player : players) {
                     int nightsAwake = player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST)) / 24000;
-                    if (Config.INSTANCE.awakeDebuff && nightsAwake > Config.INSTANCE.nightsBeforeDebuff) {
+                    if (nightsAwake > Config.INSTANCE.nightsBeforeDebuff) {
                         applyDebuffs(player, nightsAwake);
                     }
                 }

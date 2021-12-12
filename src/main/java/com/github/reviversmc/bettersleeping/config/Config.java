@@ -14,6 +14,7 @@ public class Config {
     public String notEnoughPlayersAsleepMessage = "{asleep}/{total} ({percent}%) players are now sleeping. {additionallyNeeded} more required to skip the night!";
     public String[] formatting = new String[] {"gold"};
     public boolean awakeDebuff = true;
+    public boolean applyDebuffWhenAloneOnServer = true;
     public int nightsBeforeDebuff = 2;
     public boolean sleepRecovery = true;
 

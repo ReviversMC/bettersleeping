@@ -25,7 +25,7 @@
         "bettersleeping.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=${loader_version}",
+        "fabricloader": ">=0.12.9",
         "fabric-api-base": "*",
         "fabric-lifecycle-events-v1": "*",
         "minecraft": ">=1.17"
