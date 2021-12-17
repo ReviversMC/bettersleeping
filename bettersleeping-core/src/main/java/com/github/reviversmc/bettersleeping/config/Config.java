@@ -21,13 +21,19 @@ public class Config {
 
 
     public Config() {
-        configFile = new File(FabricLoader.getInstance().getConfigDir() + "/bettersleeping/config.yaml");
+        configFile = new File(FabricLoader.getInstance().getConfigDir() + "/bettersleeping.yaml");
+        boolean configJustCreated = false;
         try {
-            configFile.createNewFile();
+            if (configFile.createNewFile()) {
+                configJustCreated = true;
+            }
         } catch (IOException e) {
             BetterSleeping.logWarn("Couldn't load BetterSleeping config file! Your settings won't be saved", ExceptionUtils.getStackTrace(e));
         }
         config = FileConfig.of(configFile);
+        if (configJustCreated) {
+            save();
+        }
     }
 
 
@@ -69,6 +75,10 @@ public class Config {
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setPrettyFlow(true);
         dumperOptions.setDefaultFlowStyle(FlowStyle.BLOCK);
+        // dumperOptions.setDefaultScalarStyle(ScalarStyle.FOLDED);
+        dumperOptions.setSplitLines(false);
+        dumperOptions.setIndicatorIndent(2);
+        dumperOptions.setIndentWithIndicator(true);
         YamlWriter writer = new YamlWriter(dumperOptions);
         writer.write(config, configFile, WritingMode.REPLACE);
     }
