@@ -34,26 +34,6 @@ jobs:
       #     files: "**/build/libs/*.jar;!**/build/libs/*-sources.jar;!**/build/libs/*-dev.jar;!bettersleeping-core/"
       #     repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish 1.18 version
-        uses: Kir-Antipov/mc-publish@v2.0
-        with:
-          modrinth-id: WRzU60Pt
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
-          curseforge-id: 552358
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-          files-primary: bettersleeping-1.18/build/libs/!(*-@(dev|sources)).jar
-
-          name: BetterSleeping 0.5.2 for 1.18
-          version: 0.5.2+1.18
-          version-type: beta
-
-          loaders: |
-            fabric
-
       - name: Publish 1.17 version
         uses: Kir-Antipov/mc-publish@v2.0
         with:
