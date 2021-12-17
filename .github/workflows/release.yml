@@ -47,7 +47,7 @@ jobs:
 
           files-primary: bettersleeping-1.17/build/libs/!(*-@(dev|sources)).jar
 
-          name: BetterSleeping 0.5.2 for 1.17
+          name: BetterSleeping 0.5.2 for 1.17+
           version: 0.5.2+1.17
           version-type: beta
 
