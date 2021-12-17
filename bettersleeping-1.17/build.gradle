@@ -16,6 +16,8 @@ apply from: '../common.gradle'
 
 
 dependencies {
+    include implementation(project(":bettersleeping-core"))
+
     minecraft "com.mojang:minecraft:${project.minecraft_version_1_17}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings_1_17}:v2"
 

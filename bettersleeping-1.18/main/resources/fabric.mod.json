@@ -11,8 +11,8 @@
         "ExtraCrafTX"
     ],
     "contact": {
-        "homepage": "https://github.com/ReviversMC/better-sleeping",
-        "issues": "https://github.com/ReviversMC/better-sleeping/issues"
+        "homepage": "https://github.com/ReviversMC/bettersleeping",
+        "issues": "https://github.com/ReviversMC/bettersleeping/issues"
     },
     "icon": "assets/bettersleeping/icon.png",
     "license": "CC-BY-NC-SA-4.0",
@@ -22,13 +22,11 @@
             "com.github.reviversmc.bettersleeping.BetterSleeping"
         ]
     },
-    "mixins": [
-        "bettersleeping.mixins.json"
-    ],
     "depends": {
         "fabricloader": ">=0.12.9",
         "fabric-api-base": "*",
         "fabric-lifecycle-events-v1": "*",
-        "minecraft": ">=1.18"
+        "minecraft": ">=1.18",
+        "bettersleeping-core": "*"
     }
 }
