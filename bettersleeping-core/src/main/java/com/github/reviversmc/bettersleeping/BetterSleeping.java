@@ -30,7 +30,7 @@ public class BetterSleeping implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-        Config.loadConfigs();
+        Config.INSTANCE.load();
 		ServerTickEvents.END_SERVER_TICK.register(EventHandler::onTick);
 	}
 

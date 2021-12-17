@@ -25,19 +25,19 @@ import net.minecraft.world.World;
 public class EventHandler {
 
     public static void onTick(MinecraftServer server) {
-        if (Config.INSTANCE.awakeDebuff == false) {
+        if (Config.INSTANCE.getAwakeDebuff() == false) {
             return;
         }
         // Apply debuffs every morning to everyone who hasn't slept in a while
         for (ServerWorld world : server.getWorlds()) {
             if (world.getTimeOfDay() % 24000 == 1) {
                 List<ServerPlayerEntity> players = world.getPlayers();
-                if (players.size() <= 1 && Config.INSTANCE.applyDebuffWhenAloneOnServer == false) {
+                if (players.size() <= 1 && Config.INSTANCE.getApplyDebuffWhenAloneOnServer() == false) {
                     return;
                 }
                 for (ServerPlayerEntity player : players) {
                     int nightsAwake = player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST)) / 24000;
-                    if (nightsAwake > Config.INSTANCE.nightsBeforeDebuff) {
+                    if (nightsAwake > Config.INSTANCE.getNightsBeforeDebuff()) {
                         applyDebuffs(player, nightsAwake);
                     }
                 }
@@ -48,7 +48,7 @@ public class EventHandler {
 
 
     private static void applyDebuffs(ServerPlayerEntity player, int nightsAwake) {
-        int nightsAwakeToPunish = nightsAwake - Config.INSTANCE.nightsBeforeDebuff;
+        int nightsAwakeToPunish = nightsAwake - Config.INSTANCE.getNightsBeforeDebuff();
         if (nightsAwakeToPunish	< 1) {
             return;
         }
@@ -56,8 +56,8 @@ public class EventHandler {
         // Send debuff message
         HashMap<String, String> args = new HashMap<>();
         args.put("nights", NumberFormat.getInstance().format(nightsAwake));
-        LiteralText debuffText = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.debuffMessage, args, "{", "}"));
-        for (String format : Config.INSTANCE.formatting) {
+        LiteralText debuffText = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getDebuffMessage(), args, "{", "}"));
+        for (String format : Config.INSTANCE.getFormatting()) {
             debuffText.formatted(Formatting.byName(format));
         }
         player.sendSystemMessage(debuffText, player.getUuid());
@@ -106,13 +106,13 @@ public class EventHandler {
         player.removeStatusEffect(StatusEffects.BLINDNESS);
 
         // Apply buffs
-        if (Config.INSTANCE.sleepRecovery) {
+        if (Config.INSTANCE.getSleepRecovery()) {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 300, 1));
         }
 
         // Send good morning message
-        LiteralText skipText = new LiteralText(Config.INSTANCE.nightSkippedMessage);
-        for (String format : Config.INSTANCE.formatting) {
+        LiteralText skipText = new LiteralText(Config.INSTANCE.getNightSkippedMessage());
+        for (String format : Config.INSTANCE.getFormatting()) {
             skipText.formatted(Formatting.byName(format));
         }
         player.sendSystemMessage(skipText, player.getUuid());
@@ -141,11 +141,11 @@ public class EventHandler {
         LiteralText sleepingMessage;
         if (playersAdditionallyNeeded > 0) {
             args.put("additionallyNeeded", NumberFormat.getInstance().format(playersAdditionallyNeeded));
-            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.notEnoughPlayersAsleepMessage, args, "{", "}"));
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getNotEnoughPlayersAsleepMessage(), args, "{", "}"));
         } else {
-            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.playersAsleepMessage, args, "{", "}"));
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getPlayersAsleepMessage(), args, "{", "}"));
         }
-        for (String format : Config.INSTANCE.formatting) {
+        for (String format : Config.INSTANCE.getFormatting()) {
             sleepingMessage.formatted(Formatting.byName(format));
         }
         players.forEach(player -> {
