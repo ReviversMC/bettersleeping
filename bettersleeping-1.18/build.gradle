@@ -55,7 +55,7 @@ dependencies {
         // modRuntimeOnly "maven.modrinth:resolution-control-plus:${project.resolution_control_version_1_18}"
         // modRuntimeOnly "curse.maven:resolution-control-plus-446974:3206545"
         // modRuntimeOnly "curse.maven:smooth-boot-415758:3248104"
-        modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_18}"
+        // modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_18}"
         // modRuntimeOnly "maven.modrinth:sodium:${project.sodium_version_1_18}"
 
         // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
