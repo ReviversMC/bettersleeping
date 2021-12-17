@@ -1,32 +1,38 @@
 name: Build
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/cache@v2
-      with:
-        path: |
-          ~/.gradle/loom-cache
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          gradle-
-    - uses: actions/checkout@v2
-    - name: Set up JDK 17
-      uses: actions/setup-java@v1
-      with:
-        java-version: 17
+      - uses: actions/checkout@v2
 
-    - name: Build with Gradle
-      run: ./gradlew build
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: gradle
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-artifacts
-        path: build/libs
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: |
+            **/build/libs
+            !bettersleeping-core/
+      - name: Cleanup Gradle Cache
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties

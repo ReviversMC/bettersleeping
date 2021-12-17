@@ -3,12 +3,15 @@
 	"cSpell.words": [
         "bettersleeping",
         "bettersleepingcore",
+        "curseforge",
         "Debuff",
         "Debuffs",
         "entrypoints",
         "ExtraCrafTX",
         "fabricloader",
+        "gradlew",
         "Gson",
+        "Kir-Antipov",
         "laggy",
         "Minecraft",
         "modmenu",
@@ -16,6 +19,7 @@
         "NebelNidas",
         "reviversmc",
         "Substitutor",
+        "temurin",
         "thefirethirteen"
     ],
 	"java.configuration.updateBuildConfiguration": "automatic",
