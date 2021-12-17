@@ -39,8 +39,8 @@ public class Config {
 
     private String nightSkippedMessage = "Rise and shine!";
     private String debuffMessage = "You have been awake for {nights} nights and have been given a debuff.";
-    private String playersAsleepMessage = "{asleep}/{total} ({percent}%) players are now sleeping!";
-    private String notEnoughPlayersAsleepMessage = "{asleep}/{total} ({percent}%) players are now sleeping. {additionallyNeeded} more required to skip the night!";
+    private String playersAsleepMessage = "{asleepPlayers}/{totalPlayers} ({asleepPercentage}%) players are now sleeping!";
+    private String notEnoughPlayersAsleepMessage = "{asleepPlayers}/{totalPlayers} ({asleepPercentage}%) players are now sleeping. {asleepPlayersAdditionallyNeeded} more required to skip the night!";
     private String[] formatting = new String[] {"gold"};
     private boolean awakeDebuff = true;
     private boolean applyDebuffWhenAloneOnServer = true;

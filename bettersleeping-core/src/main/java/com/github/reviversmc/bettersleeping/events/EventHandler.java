@@ -132,15 +132,15 @@ public class EventHandler {
         int playersAdditionallyNeeded = playersNeededToSkipNight - sleepingPlayerCount;
 
         HashMap<String, String> args = new HashMap<>();
-        args.put("asleep",          NumberFormat.getInstance().format(sleepingPlayerCount));
-        args.put("total",           NumberFormat.getInstance().format(players.size()));
-        args.put("percent",         NumberFormat.getInstance().format((sleepingPlayerCount * 100) / players.size()));
-        args.put("required",        NumberFormat.getInstance().format(playersNeededToSkipNight));
-        args.put("percentRequired", NumberFormat.getInstance().format(percentageNeededToSkipNight));
+        args.put("asleepPlayers",                   NumberFormat.getInstance().format(sleepingPlayerCount));
+        args.put("totalPlayers",                    NumberFormat.getInstance().format(players.size()));
+        args.put("asleepPercentage",                NumberFormat.getInstance().format((sleepingPlayerCount * 100) / players.size()));
+        args.put("asleepPlayersRequired",           NumberFormat.getInstance().format(playersNeededToSkipNight));
+        args.put("asleepPercentageRequired",        NumberFormat.getInstance().format(percentageNeededToSkipNight));
+        args.put("asleepPlayersAdditionallyNeeded", NumberFormat.getInstance().format(playersAdditionallyNeeded));
 
         LiteralText sleepingMessage;
         if (playersAdditionallyNeeded > 0) {
-            args.put("additionallyNeeded", NumberFormat.getInstance().format(playersAdditionallyNeeded));
             sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getNotEnoughPlayersAsleepMessage(), args, "{", "}"));
         } else {
             sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getPlayersAsleepMessage(), args, "{", "}"));

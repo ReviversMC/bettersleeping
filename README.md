@@ -22,13 +22,13 @@ The effects given are:
 Messages are sent when a player sleeps, for skipping nights and for debuffs. These can all be configured as well. Each message can have placeholders that are replaced:
 - The night skipped message does not take any placeholders.
 - The players asleep message can take:
-  - `{asleep}` which is replaced with the number of players asleep
-  - `{total}` which is replaced with the total number of players
-  - `{percent}` which is replaced with the percentage of players that are asleep
-  - `{required}` which is replaced with the number of players required to skip the night
-  - `{percentRequired}` which is replaced with the percentage of players required to skip the night
-  - `{additionallyNeeded}` which is replaced with the number of players additionally needed to sleep to skip the night
-- The debuff message can take `{nights}` which is replaced with the number of nights skipped.
+  - `{asleepPlayers}` which is replaced with the number of players asleep
+  - `{totalPlayers}` which is replaced with the total number of players
+  - `{asleepPercentage}` which is replaced with the percentage of players that are asleep
+  - `{asleepPlayersRequired}` which is replaced with the number of players required to skip the night
+  - `{asleepPercentageRequired}` which is replaced with the percentage of players required to skip the night
+  - `{asleepPlayersAdditionallyNeeded}` which is replaced with the number of players additionally needed to sleep to skip the night
+- The debuff message can take `{skippedNights}` which is replaced with the number of nights skipped.
 
 The config file also has a formatting field that is used to format the messages. It is a list and can take the names of any of the standard colours and styles. The Minecraft wiki has a [full list](https://minecraft.gamepedia.com/Formatting_codes).
 
