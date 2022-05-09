@@ -36,6 +36,9 @@ public class EventHandler {
                     return;
                 }
                 for (ServerPlayerEntity player : players) {
+                    if (player.isSpectator() || player.isCreative()) {
+                        return;
+                    }
                     int nightsAwake = player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST)) / 24000;
                     applyDebuffs(player, nightsAwake);
                 }
