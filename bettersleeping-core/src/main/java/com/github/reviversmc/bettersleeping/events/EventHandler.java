@@ -36,7 +36,12 @@ public class EventHandler {
                     return;
                 }
                 for (ServerPlayerEntity player : players) {
+                    // Only apply to survival/adventure mode
                     if (player.isSpectator() || player.isCreative()) {
+                        return;
+                    }
+                    // Only apply in dimensions you can actually sleep in
+                    if (!player.getServerWorld().getDimension().isBedWorking()) {
                         return;
                     }
                     int nightsAwake = player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST)) / 24000;
