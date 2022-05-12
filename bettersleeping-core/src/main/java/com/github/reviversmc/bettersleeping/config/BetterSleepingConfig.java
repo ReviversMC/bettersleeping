@@ -119,32 +119,32 @@ public class BetterSleepingConfig implements ConfigData {
         //   loop doesn't have to be duplicated.
         // @Deprecated
         public interface Debuff {
-            int nightsBefore();
+            int allowedAwakeNightsBefore();
             int baseDuration();
             float durationAmplifier();
         }
 
         public static class SimpleDebuff implements Debuff {
             @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
-            public int nightsBefore;
+            public int allowedAwakeNightsBefore;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 40)
             public int baseDuration;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 5)
             public float durationAmplifier;
 
             public SimpleDebuff(
-                int nightsBefore,
+                int allowedAwakeNightsBefore,
                 int baseDuration,
                 float durationAmplifier
             ) {
-                this.nightsBefore = nightsBefore;
+                this.allowedAwakeNightsBefore = allowedAwakeNightsBefore;
                 this.baseDuration = baseDuration;
                 this.durationAmplifier = durationAmplifier;
             }
 
             @Override
-            public int nightsBefore() {
-                return nightsBefore;
+            public int allowedAwakeNightsBefore() {
+                return allowedAwakeNightsBefore;
             }
 
             @Override
@@ -164,7 +164,7 @@ public class BetterSleepingConfig implements ConfigData {
         //   so the GUI wouldn't show the extended classes' fields.
         public static class LeveledDebuff implements Debuff {
             @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
-            public int nightsBefore;
+            public int allowedAwakeNightsBefore;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 40)
             public int baseDuration;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 5)
@@ -175,13 +175,13 @@ public class BetterSleepingConfig implements ConfigData {
             public int maxLevel;
 
             public LeveledDebuff(
-                int nightsBefore,
+                int allowedAwakeNightsBefore,
                 int baseDuration,
                 float durationAmplifier,
                 float levelAmplifier,
                 int maxLevel
             ) {
-                this.nightsBefore = nightsBefore;
+                this.allowedAwakeNightsBefore = allowedAwakeNightsBefore;
                 this.baseDuration = baseDuration;
                 this.durationAmplifier = durationAmplifier;
                 this.levelAmplifier = levelAmplifier;
@@ -189,8 +189,8 @@ public class BetterSleepingConfig implements ConfigData {
             }
 
             @Override
-            public int nightsBefore() {
-                return nightsBefore;
+            public int allowedAwakeNightsBefore() {
+                return allowedAwakeNightsBefore;
             }
 
             @Override

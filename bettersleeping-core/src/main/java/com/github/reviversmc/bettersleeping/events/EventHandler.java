@@ -11,6 +11,7 @@ import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig.Debuffs.
 import org.apache.commons.lang3.text.StrSubstitutor;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -54,21 +55,30 @@ public class EventHandler {
     }
 
 
+    // TODO: Remove this enum and make debuffs dynamic (user-addable)
+    private enum DebuffWithId {
+        SLOWNESS(BetterSleeping.config.debuffs.slowness, StatusEffects.SLOWNESS),
+        WEAKNESS(BetterSleeping.config.debuffs.weakness, StatusEffects.WEAKNESS),
+        NAUSEA(BetterSleeping.config.debuffs.nausea, StatusEffects.NAUSEA),
+        MINING_FATIGUE(BetterSleeping.config.debuffs.miningFatigue, StatusEffects.MINING_FATIGUE),
+        BLINDNESS(BetterSleeping.config.debuffs.blindness, StatusEffects.BLINDNESS);
+
+        public final Debuff config;
+        public final StatusEffect id;
+
+        DebuffWithId(Debuff debuff, StatusEffect id) {
+            this.config = debuff;
+            this.id = id;
+        }
+    }
+
 
     private static void applyDebuffs(ServerPlayerEntity player, int nightsAwake) {
         boolean debuffsApplied = false;
         int nightsAwakeToPunish;
 
-        Debuff debuffs[] = {
-            BetterSleeping.config.debuffs.slowness,
-            BetterSleeping.config.debuffs.weakness,
-            BetterSleeping.config.debuffs.nausea,
-            BetterSleeping.config.debuffs.miningFatigue,
-            BetterSleeping.config.debuffs.blindness
-        };
-
-        for (Debuff debuff : debuffs) {
-            nightsAwakeToPunish = nightsAwake - debuff.nightsBefore();
+        for (DebuffWithId debuff : DebuffWithId.values()) {
+            nightsAwakeToPunish = nightsAwake - debuff.config.allowedAwakeNightsBefore();
 
             if (nightsAwakeToPunish	>= 1) {
                 debuffsApplied = true;
@@ -78,26 +88,26 @@ public class EventHandler {
                     24100,
                     // Desired duration according to formula
                     Math.round(
-                        debuff.baseDuration()
+                        debuff.config.baseDuration()
                         + (nightsAwakeToPunish - 1)
-                        * debuff.durationAmplifier()
+                        * debuff.config.durationAmplifier()
                     )
                 );
 
                 int additionalEffectLevels = 0;
-                if (debuff instanceof LeveledDebuff) {
+                if (debuff.config instanceof LeveledDebuff) {
                     additionalEffectLevels = Math.min(
                         // Max allowed level for this debuff
-                        ((LeveledDebuff) debuff).maxLevel,
+                        ((LeveledDebuff) debuff.config).maxLevel,
                         // Desired effect level according to formula
                         Math.round(
                             (nightsAwakeToPunish - 1)
-                            * ((LeveledDebuff) debuff).levelAmplifier
+                            * ((LeveledDebuff) debuff.config).levelAmplifier
                         )
                     );
                 }
 
-                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, duration, additionalEffectLevels));
+                player.addStatusEffect(new StatusEffectInstance(debuff.id, duration, additionalEffectLevels));
             }
         }
 
