@@ -16,7 +16,7 @@ apply from: '../common.gradle'
 
 
 dependencies {
-    include implementation(project(":bettersleeping-core"))
+    include modImplementation(project(":bettersleeping-core"))
 
     minecraft "com.mojang:minecraft:${project.minecraft_version_1_17}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings_1_17}:v2"
@@ -31,7 +31,7 @@ dependencies {
     // // ModMenu integration
     // modImplementation "com.terraformersmc:modmenu:${project.modmenu_version_1_17}"
     // // Cloth Config for config screen
-    // include modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version_1_17}") {
+    // modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version_1_17}") {
     //     exclude(group: "net.fabricmc.fabric-api")
     // }
 
