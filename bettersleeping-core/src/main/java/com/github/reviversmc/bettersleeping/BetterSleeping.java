@@ -1,17 +1,20 @@
 package com.github.reviversmc.bettersleeping;
 
-import com.github.reviversmc.bettersleeping.config.Config;
+import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig;
 import com.github.reviversmc.bettersleeping.events.EventHandler;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class BetterSleeping implements ModInitializer {
     public static final String NAMESPACE = "bettersleeping";
     public static final String LOGGER_NAME = "BetterSleeping";
+    public static BetterSleepingConfig config;
 
     private static Logger getLogger() {
         return LogManager.getLogger(LOGGER_NAME);
@@ -30,7 +33,9 @@ public class BetterSleeping implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-        Config.INSTANCE.load();
+        AutoConfig.register(BetterSleepingConfig.class, Toml4jConfigSerializer::new);
+        config = AutoConfig.getConfigHolder(BetterSleepingConfig.class).getConfig();
+
 		ServerTickEvents.END_SERVER_TICK.register(EventHandler::onTick);
 	}
 

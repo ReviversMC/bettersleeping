@@ -4,7 +4,9 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 
-import com.github.reviversmc.bettersleeping.config.Config;
+import com.github.reviversmc.bettersleeping.BetterSleeping;
+import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig.Debuffs.Debuff;
+import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig.Debuffs.LeveledDebuff;
 
 import org.apache.commons.lang3.text.StrSubstitutor;
 
@@ -25,14 +27,14 @@ import net.minecraft.world.World;
 public class EventHandler {
 
     public static void onTick(MinecraftServer server) {
-        if (Config.INSTANCE.getApplyAwakeDebuffs() == false) {
+        if (BetterSleeping.config.buffs.applySleepBuffs == false) {
             return;
         }
         // Apply debuffs every morning to everyone who hasn't slept in a while
         for (ServerWorld world : server.getWorlds()) {
             if (world.getTimeOfDay() % 24000 == 1) {
                 List<ServerPlayerEntity> players = world.getPlayers();
-                if (players.size() <= 1 && Config.INSTANCE.getApplyAwakeDebuffsWhenAloneOnServer() == false) {
+                if (players.size() <= 1 && BetterSleeping.config.debuffs.applyAwakeDebuffsWhenAloneOnServer == false) {
                     return;
                 }
                 for (ServerPlayerEntity player : players) {
@@ -54,67 +56,59 @@ public class EventHandler {
 
 
     private static void applyDebuffs(ServerPlayerEntity player, int nightsAwake) {
-        boolean appliedDebuffs = false;
+        boolean debuffsApplied = false;
         int nightsAwakeToPunish;
 
-        // Slowness
-        nightsAwakeToPunish = nightsAwake - Config.INSTANCE.getNightsBeforeSlowness();
-        if (nightsAwakeToPunish	>= 1) {
-            appliedDebuffs = true;
-            int duration = Math.min(24100, Math.round(Config.INSTANCE.getSlownessDurationBase()
-                    * nightsAwakeToPunish * Config.INSTANCE.getSlownessDurationAmplifier()));
-            int amplifier = Math.min(Config.INSTANCE.getSlownessMaxLevel(), Math.max(1, Math.round(
-                    nightsAwakeToPunish * Config.INSTANCE.getSlownessLevelAmplifier())));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, duration, amplifier));
-        }
-        // Weakness
-        nightsAwakeToPunish = nightsAwake - Config.INSTANCE.getNightsBeforeWeakness();
-        if (nightsAwakeToPunish	>= 1) {
-            appliedDebuffs = true;
-            int duration = Math.min(24100, Math.round(Config.INSTANCE.getWeaknessDurationBase()
-                    + nightsAwakeToPunish * Config.INSTANCE.getWeaknessDurationAmplifier()));
-            int amplifier = Math.min(Config.INSTANCE.getWeaknessMaxLevel(), Math.max(1, Math.round(
-                    nightsAwakeToPunish * Config.INSTANCE.getWeaknessLevelAmplifier())));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, duration, amplifier));
-        }
-        // Nausea
-        nightsAwakeToPunish = nightsAwake - Config.INSTANCE.getNightsBeforeNausea();
-        if (nightsAwakeToPunish	>= 1) {
-            appliedDebuffs = true;
-            int duration = Math.min(24100, Math.round(Config.INSTANCE.getNauseaDurationBase()
-                    + nightsAwakeToPunish * Config.INSTANCE.getNauseaDurationAmplifier()));
-            int amplifier = 0;
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, duration, amplifier));
-        }
-        // Mining Fatigue
-        nightsAwakeToPunish = nightsAwake - Config.INSTANCE.getNightsBeforeMiningFatigue();
-        if (nightsAwakeToPunish	>= 1) {
-            appliedDebuffs = true;
-            int duration = Math.min(24100, Math.round(Config.INSTANCE.getMiningFatigueDurationBase()
-                    + nightsAwakeToPunish * Config.INSTANCE.getMiningFatigueDurationAmplifier()));
-            int amplifier = Math.min(Config.INSTANCE.getMiningFatigueMaxLevel(), Math.max(1, Math.round(
-                    nightsAwakeToPunish * Config.INSTANCE.getMiningFatigueLevelAmplifier())));
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, duration, amplifier));
-        }
-        // Blindness
-        nightsAwakeToPunish = nightsAwake - Config.INSTANCE.getNightsBeforeBlindness();
-        if (nightsAwakeToPunish	>= 1) {
-            appliedDebuffs = true;
-            int duration = Math.min(24100, Math.round(Config.INSTANCE.getBlindnessDurationBase()
-                    + nightsAwakeToPunish * Config.INSTANCE.getBlindnessDurationAmplifier()));
-            int amplifier = 0;
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, duration, amplifier));
+        Debuff debuffs[] = {
+            BetterSleeping.config.debuffs.slowness,
+            BetterSleeping.config.debuffs.weakness,
+            BetterSleeping.config.debuffs.nausea,
+            BetterSleeping.config.debuffs.miningFatigue,
+            BetterSleeping.config.debuffs.blindness
+        };
+
+        for (Debuff debuff : debuffs) {
+            nightsAwakeToPunish = nightsAwake - debuff.nightsBefore();
+
+            if (nightsAwakeToPunish	>= 1) {
+                debuffsApplied = true;
+
+                int duration = Math.min(
+                    // Length of a Minecraft day
+                    24100,
+                    // Desired duration according to formula
+                    Math.round(
+                        debuff.baseDuration()
+                        + (nightsAwakeToPunish - 1)
+                        * debuff.durationAmplifier()
+                    )
+                );
+
+                int additionalEffectLevels = 0;
+                if (debuff instanceof LeveledDebuff) {
+                    additionalEffectLevels = Math.min(
+                        // Max allowed level for this debuff
+                        ((LeveledDebuff) debuff).maxLevel,
+                        // Desired effect level according to formula
+                        Math.round(
+                            (nightsAwakeToPunish - 1)
+                            * ((LeveledDebuff) debuff).levelAmplifier
+                        )
+                    );
+                }
+
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, duration, additionalEffectLevels));
+            }
         }
 
-
-        if (!appliedDebuffs) {
+        if (!debuffsApplied) {
             return;
         }
         // Send debuff message
         HashMap<String, String> args = new HashMap<>();
         args.put("nightsAwake", NumberFormat.getInstance().format(nightsAwake));
-        LiteralText debuffText = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getDebuffMessage(), args, "{", "}"));
-        for (String format : Config.INSTANCE.getMessageFormatting()) {
+        LiteralText debuffText = new LiteralText(StrSubstitutor.replace(BetterSleeping.config.messages.debuffMessage, args, "{", "}"));
+        for (String format : BetterSleeping.config.messages.messageFormatting) {
             debuffText.formatted(Formatting.byName(format));
         }
         player.sendSystemMessage(debuffText, player.getUuid());
@@ -145,7 +139,7 @@ public class EventHandler {
         }
 
         // Remove debuffs
-        if (Config.INSTANCE.getApplyAwakeDebuffs()) {
+        if (BetterSleeping.config.debuffs.applyAwakeDebuffs) {
             player.removeStatusEffect(StatusEffects.NAUSEA);
             player.removeStatusEffect(StatusEffects.SLOWNESS);
             player.removeStatusEffect(StatusEffects.WEAKNESS);
@@ -154,14 +148,16 @@ public class EventHandler {
         }
 
         // Apply buffs
-        if (Config.INSTANCE.getApplySleepBuffs()) {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION,
-                    Config.INSTANCE.getRegenerationDuration() * 20, Config.INSTANCE.getRegenerationLevel() - 1));
+        if (BetterSleeping.config.buffs.applySleepBuffs) {
+            player.addStatusEffect(new StatusEffectInstance(
+                    StatusEffects.REGENERATION,
+                    BetterSleeping.config.buffs.regenerationDuration * 20,
+                    BetterSleeping.config.buffs.regenerationLevel - 1));
         }
 
         // Send good morning message
-        LiteralText skipText = new LiteralText(Config.INSTANCE.getNightSkippedMessage());
-        for (String format : Config.INSTANCE.getMessageFormatting()) {
+        LiteralText skipText = new LiteralText(BetterSleeping.config.messages.nightSkippedMessage);
+        for (String format : BetterSleeping.config.messages.messageFormatting) {
             skipText.formatted(Formatting.byName(format));
         }
         player.sendSystemMessage(skipText, player.getUuid());
@@ -190,11 +186,11 @@ public class EventHandler {
 
         LiteralText sleepingMessage;
         if (playersAdditionallyNeeded > 0) {
-            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getNotEnoughPlayersAsleepMessage(), args, "{", "}"));
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(BetterSleeping.config.messages.notEnoughPlayersAsleepMessage, args, "{", "}"));
         } else {
-            sleepingMessage = new LiteralText(StrSubstitutor.replace(Config.INSTANCE.getPlayersAsleepMessage(), args, "{", "}"));
+            sleepingMessage = new LiteralText(StrSubstitutor.replace(BetterSleeping.config.messages.playersAsleepMessage, args, "{", "}"));
         }
-        for (String format : Config.INSTANCE.getMessageFormatting()) {
+        for (String format : BetterSleeping.config.messages.messageFormatting) {
             sleepingMessage.formatted(Formatting.byName(format));
         }
         players.forEach(player -> {

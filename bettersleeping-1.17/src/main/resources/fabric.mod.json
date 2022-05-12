@@ -19,6 +19,9 @@
     "entrypoints": {
         "main": [
             "com.github.reviversmc.bettersleeping.BetterSleeping"
+        ],
+        "modmenu": [
+            "com.github.reviversmc.bettersleeping.client.ModMenuIntegration"
         ]
     },
     "depends": {
