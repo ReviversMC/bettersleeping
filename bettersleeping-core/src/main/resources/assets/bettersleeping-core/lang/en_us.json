@@ -21,7 +21,7 @@
 	"text.autoconfig.bettersleeping.option.debuffs.applyAwakeDebuffsWhenAloneOnServer": "Apply awake debuffs when alone on server",
 
 	"text.autoconfig.bettersleeping.option.debuffs.slowness": "Slowness",
-	"text.autoconfig.bettersleeping.option.debuffs.slowness.allowedAwakeNightsBefore": "Allowed awake nights before effect",
+	"text.autoconfig.bettersleeping.option.debuffs.slowness.allowedAwakeNightsBeforeActivating": "Allowed awake nights before activating",
 	"text.autoconfig.bettersleeping.option.debuffs.slowness.baseDuration": "Base duration (in seconds)",
 	"text.autoconfig.bettersleeping.option.debuffs.slowness.durationAmplifier": "Duration amplifier",
 	"text.autoconfig.bettersleeping.option.debuffs.slowness.maxDuration": "Max duration",
@@ -29,7 +29,7 @@
 	"text.autoconfig.bettersleeping.option.debuffs.slowness.maxLevel": "Max level",
 
 	"text.autoconfig.bettersleeping.option.debuffs.weakness": "Weakness",
-	"text.autoconfig.bettersleeping.option.debuffs.weakness.allowedAwakeNightsBefore": "Allowed awake nights before effect",
+	"text.autoconfig.bettersleeping.option.debuffs.weakness.allowedAwakeNightsBeforeActivating": "Allowed awake nights before activating",
 	"text.autoconfig.bettersleeping.option.debuffs.weakness.baseDuration": "Base duration (in seconds)",
 	"text.autoconfig.bettersleeping.option.debuffs.weakness.durationAmplifier": "Duration amplifier",
 	"text.autoconfig.bettersleeping.option.debuffs.weakness.maxDuration": "Max duration",
@@ -37,13 +37,13 @@
 	"text.autoconfig.bettersleeping.option.debuffs.weakness.maxLevel": "Max level",
 
 	"text.autoconfig.bettersleeping.option.debuffs.nausea": "Nausea",
-	"text.autoconfig.bettersleeping.option.debuffs.nausea.allowedAwakeNightsBefore": "Allowed awake nights before effect",
+	"text.autoconfig.bettersleeping.option.debuffs.nausea.allowedAwakeNightsBeforeActivating": "Allowed awake nights before activating",
 	"text.autoconfig.bettersleeping.option.debuffs.nausea.baseDuration": "Base duration (in seconds)",
 	"text.autoconfig.bettersleeping.option.debuffs.nausea.durationAmplifier": "Duration amplifier",
 	"text.autoconfig.bettersleeping.option.debuffs.nausea.maxDuration": "Max duration",
 
 	"text.autoconfig.bettersleeping.option.debuffs.miningFatigue": "Mining Fatigue",
-	"text.autoconfig.bettersleeping.option.debuffs.miningFatigue.allowedAwakeNightsBefore": "Allowed awake nights before effect",
+	"text.autoconfig.bettersleeping.option.debuffs.miningFatigue.allowedAwakeNightsBeforeActivating": "Allowed awake nights before activating",
 	"text.autoconfig.bettersleeping.option.debuffs.miningFatigue.baseDuration": "Base duration (in seconds)",
 	"text.autoconfig.bettersleeping.option.debuffs.miningFatigue.durationAmplifier": "Duration amplifier",
 	"text.autoconfig.bettersleeping.option.debuffs.miningFatigue.maxDuration": "Max duration",
@@ -51,7 +51,7 @@
 	"text.autoconfig.bettersleeping.option.debuffs.miningFatigue.maxLevel": "Max level",
 
 	"text.autoconfig.bettersleeping.option.debuffs.blindness": "Blindness",
-	"text.autoconfig.bettersleeping.option.debuffs.blindness.allowedAwakeNightsBefore": "Allowed awake nights before effect",
+	"text.autoconfig.bettersleeping.option.debuffs.blindness.allowedAwakeNightsBeforeActivating": "Allowed awake nights before activating",
 	"text.autoconfig.bettersleeping.option.debuffs.blindness.baseDuration": "Base duration (in seconds)",
 	"text.autoconfig.bettersleeping.option.debuffs.blindness.durationAmplifier": "Duration amplifier",
 	"text.autoconfig.bettersleeping.option.debuffs.blindness.maxDuration": "Max duration"

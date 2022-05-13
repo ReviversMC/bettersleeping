@@ -78,7 +78,7 @@ public class EventHandler {
         int nightsAwakeToPunish;
 
         for (DebuffWithId debuff : DebuffWithId.values()) {
-            nightsAwakeToPunish = nightsAwake - debuff.config.allowedAwakeNightsBefore();
+            nightsAwakeToPunish = nightsAwake - debuff.config.allowedAwakeNightsBeforeActivating();
 
             if (nightsAwakeToPunish	>= 1) {
                 debuffsApplied = true;
