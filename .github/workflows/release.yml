@@ -25,8 +25,11 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Build with Gradle
-        run: ./gradlew build --no-daemon
+      - name: Build core project
+        run: ./gradlew :bettersleeping-core:build
+
+      - name: Build 1.17 project
+        run: ./gradlew :bettersleeping-1.17:build
 
       # - name: Upload GitHub release
       #   uses: AButler/upload-release-assets@v2.0
@@ -53,3 +56,10 @@ jobs:
 
           loaders: |
             fabric
+
+        game-versions: |
+            1.17
+            1.17.1
+            1.18
+            1.18.1
+            1.18.2
