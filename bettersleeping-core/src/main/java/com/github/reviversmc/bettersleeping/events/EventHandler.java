@@ -141,8 +141,9 @@ public class EventHandler {
         if (!(player instanceof ServerPlayerEntity)) {
             return;
         }
-        if (player.getEntityWorld().getTimeOfDay() % 24000 > 12010) {
-            // Player has aborted the sleeping process, since it is still night
+        BetterSleeping.logInfo("Time: " + player.getEntityWorld().getTimeOfDay() % 24000);
+        if (player.getEntityWorld().getTimeOfDay() % 24000 != 0) {
+            // Player has aborted the sleeping process, since it's not yet morning
             // Resend asleep message to every player
             sendAsleepMessage(player.getEntityWorld());
             return;
