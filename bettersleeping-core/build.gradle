@@ -18,7 +18,7 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version_1_17}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings_1_17}:v2"
 
-    // Bundle required Fabric API modules
+    // Required Fabric API modules
     modImplementation(fabricApi.module("fabric-api-base", project.fabric_version_1_17))
     modImplementation(fabricApi.module("fabric-lifecycle-events-v1", project.fabric_version_1_17))
 

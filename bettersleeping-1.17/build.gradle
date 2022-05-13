@@ -16,24 +16,24 @@ apply from: '../common.gradle'
 
 
 dependencies {
-    include modImplementation(project(":bettersleeping-core"))
+    include implementation(project(path: ":bettersleeping-core", configuration: "namedElements"))
 
     minecraft "com.mojang:minecraft:${project.minecraft_version_1_17}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings_1_17}:v2"
 
-    // Bundle required Fabric API modules
+    // Required Fabric API modules
     modImplementation(fabricApi.module("fabric-api-base", project.fabric_version_1_17))
     modImplementation(fabricApi.module("fabric-lifecycle-events-v1", project.fabric_version_1_17))
 
     // Use the full Fabric API while debugging, otherwise ModMenu complains
     modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version_1_17}"
 
-    // // ModMenu integration
-    // modImplementation "com.terraformersmc:modmenu:${project.modmenu_version_1_17}"
-    // // Cloth Config for config screen
-    // modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version_1_17}") {
-    //     exclude(group: "net.fabricmc.fabric-api")
-    // }
+    // ModMenu integration
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version_1_17}"
+    // Cloth Config for config screen
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version_1_17}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 
 
     if (project.use_third_party_mods) {
