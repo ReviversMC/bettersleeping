@@ -26,7 +26,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Build core project
-        run: ./gradlew build -p :bettersleeping-core
+        run: ./gradlew build -p bettersleeping-core
 
       - name: Build 1.17 project
         run: ./gradlew :bettersleeping-1.17:build
