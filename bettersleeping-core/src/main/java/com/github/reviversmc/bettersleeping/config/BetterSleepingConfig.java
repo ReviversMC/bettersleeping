@@ -90,27 +90,27 @@ public class BetterSleepingConfig implements ConfigData {
 
         @ConfigEntry.Gui.CollapsibleObject
         public LeveledDebuff slowness = new LeveledDebuff(
-            2, 10, 1.3f, 1.3f, 2
+            2, 10, 1.3f, 180, 1.2f, 2
         );
 
         @ConfigEntry.Gui.CollapsibleObject
         public LeveledDebuff weakness = new LeveledDebuff(
-            3, 10, 1.3f, 1f, 1
+            3, 10, 1.3f, 240, 1f, 1
         );
 
         @ConfigEntry.Gui.CollapsibleObject
         public SimpleDebuff nausea = new SimpleDebuff(
-            4, 10, 1.2f
+            4, 10, 1.2f, 60
         );
 
         @ConfigEntry.Gui.CollapsibleObject
         public LeveledDebuff miningFatigue = new LeveledDebuff(
-            4, 10, 1.2f, 1.1f, 2
+            4, 10, 1.2f, 120, 1.1f, 2
         );
 
         @ConfigEntry.Gui.CollapsibleObject
         public SimpleDebuff blindness = new SimpleDebuff(
-            5, 7, 1.2f
+            5, 7, 1.2f, 40
         );
 
 
@@ -122,24 +122,29 @@ public class BetterSleepingConfig implements ConfigData {
             int allowedAwakeNightsBefore();
             int baseDuration();
             float durationAmplifier();
+            int maxDuration();
         }
 
         public static class SimpleDebuff implements Debuff {
             @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
             public int allowedAwakeNightsBefore;
-            @ConfigEntry.BoundedDiscrete(min = 1, max = 40)
+            @ConfigEntry.BoundedDiscrete(min = 1, max = 30)
             public int baseDuration;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 5)
             public float durationAmplifier;
+            @ConfigEntry.BoundedDiscrete(min = 30, max = 1200)
+            public int maxDuration;
 
             public SimpleDebuff(
                 int allowedAwakeNightsBefore,
                 int baseDuration,
-                float durationAmplifier
+                float durationAmplifier,
+                int maxDuration
             ) {
                 this.allowedAwakeNightsBefore = allowedAwakeNightsBefore;
                 this.baseDuration = baseDuration;
                 this.durationAmplifier = durationAmplifier;
+                this.maxDuration = maxDuration;
             }
 
             @Override
@@ -156,6 +161,11 @@ public class BetterSleepingConfig implements ConfigData {
             public float durationAmplifier() {
                 return durationAmplifier;
             }
+
+            @Override
+            public int maxDuration() {
+                return maxDuration;
+            }
         }
 
         // Ideally, LeveledDebuff would just extend SimpleDebuff
@@ -169,6 +179,8 @@ public class BetterSleepingConfig implements ConfigData {
             public int baseDuration;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 5)
             public float durationAmplifier;
+            @ConfigEntry.BoundedDiscrete(min = 30, max = 1200)
+            public int maxDuration;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 3)
             public float levelAmplifier;
             @ConfigEntry.BoundedDiscrete(min = 1, max = 255)
@@ -178,12 +190,14 @@ public class BetterSleepingConfig implements ConfigData {
                 int allowedAwakeNightsBefore,
                 int baseDuration,
                 float durationAmplifier,
+                int maxDuration,
                 float levelAmplifier,
                 int maxLevel
             ) {
                 this.allowedAwakeNightsBefore = allowedAwakeNightsBefore;
                 this.baseDuration = baseDuration;
                 this.durationAmplifier = durationAmplifier;
+                this.maxDuration = maxDuration;
                 this.levelAmplifier = levelAmplifier;
                 this.maxLevel = maxLevel;
             }
@@ -201,6 +215,11 @@ public class BetterSleepingConfig implements ConfigData {
             @Override
             public float durationAmplifier() {
                 return durationAmplifier;
+            }
+
+            @Override
+            public int maxDuration() {
+                return maxDuration;
             }
         }
 

@@ -66,7 +66,7 @@ public class EventHandler {
         public final Debuff config;
         public final StatusEffect id;
 
-        DebuffWithId(Debuff debuff, StatusEffect id) {
+        private DebuffWithId(Debuff debuff, StatusEffect id) {
             this.config = debuff;
             this.id = id;
         }
@@ -84,14 +84,14 @@ public class EventHandler {
                 debuffsApplied = true;
 
                 int duration = Math.min(
-                    // Length of a Minecraft day
-                    24100,
-                    // Desired duration according to formula
-                    Math.round(
-                        debuff.config.baseDuration()
-                        + (nightsAwakeToPunish - 1)
-                        * debuff.config.durationAmplifier()
-                    )
+                    debuff.config.maxDuration() * 20, // We want seconds here, not ticks
+                    Math.round(Math.round(
+                        debuff.config.baseDuration() * 20
+                        * Math.pow(
+                            debuff.config.durationAmplifier(),
+                            nightsAwakeToPunish - 1
+                        )
+                    ))
                 );
 
                 int additionalEffectLevels = 0;
@@ -100,11 +100,11 @@ public class EventHandler {
                         // Max allowed level for this debuff
                         ((LeveledDebuff) debuff.config).maxLevel,
                         // Desired effect level according to formula
-                        Math.round(
-                            (nightsAwakeToPunish - 1)
-                            * ((LeveledDebuff) debuff.config).levelAmplifier
-                        )
-                    );
+                       Math.round(Math.round(Math.pow(
+                            ((LeveledDebuff) debuff.config).levelAmplifier,
+                            nightsAwakeToPunish - 1
+                        )))
+                    ) - 1;
                 }
 
                 player.addStatusEffect(new StatusEffectInstance(debuff.id, duration, additionalEffectLevels));
