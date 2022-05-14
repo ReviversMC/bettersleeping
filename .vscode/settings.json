@@ -26,5 +26,6 @@
         "thefirethirteen"
     ],
 	"java.configuration.updateBuildConfiguration": "automatic",
-    "editor.bracketPairColorization.enabled": true
+    "editor.bracketPairColorization.enabled": true,
+    "java.dependency.packagePresentation": "hierarchical"
 }

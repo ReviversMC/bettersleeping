@@ -28,6 +28,9 @@ jobs:
       - name: Build 1.17 project
         run: ./gradlew :bettersleeping-1.17:build --no-daemon --stacktrace
 
+      - name: Build 1.19 project
+        run: ./gradlew :bettersleeping-1.19:build --no-daemon --stacktrace
+
       # - name: Upload GitHub release
       #   uses: AButler/upload-release-assets@v2.0
       #   with:
@@ -54,9 +57,32 @@ jobs:
           loaders: |
             fabric
 
-        game-versions: |
+          game-versions: |
             1.17
             1.17.1
             1.18
             1.18.1
             1.18.2
+
+      - name: Publish 1.19 version
+        uses: Kir-Antipov/mc-publish@v2.0
+        with:
+          modrinth-id: WRzU60Pt
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          curseforge-id: 552358
+          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          files-primary: bettersleeping-1.19/build/libs/!(*-@(dev|sources)).jar
+
+          name: BetterSleeping 0.6.0-beta.1 for 1.19
+          version: 0.6.0-beta.1+1.19
+          version-type: beta
+
+          loaders: |
+            fabric
+
+          game-versions: |
+            22w19a

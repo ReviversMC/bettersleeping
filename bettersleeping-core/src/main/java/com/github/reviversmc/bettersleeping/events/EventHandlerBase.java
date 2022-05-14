@@ -8,7 +8,7 @@ import com.github.reviversmc.bettersleeping.BetterSleeping;
 import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig.Debuffs.Debuff;
 import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig.Debuffs.LeveledDebuff;
 
-import org.apache.commons.lang3.text.StrSubstitutor;
+import org.apache.commons.text.StringSubstitutor;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -19,15 +19,16 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
-public class EventHandler {
+public abstract class EventHandlerBase {
 
-    public static void onTick(MinecraftServer server) {
+    protected abstract void sendPlayerMessage(PlayerEntity player, String message);
+
+
+    public void onTick(MinecraftServer server) {
         if (BetterSleeping.config.buffs.applySleepBuffs == false) {
             return;
         }
@@ -73,7 +74,7 @@ public class EventHandler {
     }
 
 
-    private static void applyDebuffs(ServerPlayerEntity player, int nightsAwake) {
+    private void applyDebuffs(ServerPlayerEntity player, int nightsAwake) {
         boolean debuffsApplied = false;
         int nightsAwakeToPunish;
 
@@ -114,19 +115,16 @@ public class EventHandler {
         if (!debuffsApplied) {
             return;
         }
-        // Send debuff message
+
         HashMap<String, String> args = new HashMap<>();
         args.put("nightsAwake", NumberFormat.getInstance().format(nightsAwake));
-        LiteralText debuffText = new LiteralText(StrSubstitutor.replace(BetterSleeping.config.messages.debuffMessage, args, "{", "}"));
-        for (String format : BetterSleeping.config.messages.messageFormatting) {
-            debuffText.formatted(Formatting.byName(format));
-        }
-        player.sendSystemMessage(debuffText, player.getUuid());
+        String debuffMessage = StringSubstitutor.replace(BetterSleeping.config.messages.debuffMessage, args, "{", "}");
+        sendPlayerMessage(player, debuffMessage);
     }
 
 
 
-    public static void onSleep(PlayerEntity player) {
+    public void onSleep(PlayerEntity player) {
         if (!(player instanceof ServerPlayerEntity)) {
             return;
         }
@@ -137,7 +135,7 @@ public class EventHandler {
 
 
 
-    public static void onWakeup(PlayerEntity player, boolean updateSleepingPlayers) {
+    public void onWakeUp(PlayerEntity player) {
         if (!(player instanceof ServerPlayerEntity)) {
             return;
         }
@@ -166,17 +164,12 @@ public class EventHandler {
                     BetterSleeping.config.buffs.regenerationLevel - 1));
         }
 
-        // Send good morning message
-        LiteralText skipText = new LiteralText(BetterSleeping.config.messages.nightSkippedMessage);
-        for (String format : BetterSleeping.config.messages.messageFormatting) {
-            skipText.formatted(Formatting.byName(format));
-        }
-        player.sendSystemMessage(skipText, player.getUuid());
+        sendPlayerMessage(player, BetterSleeping.config.messages.nightSkippedMessage);
     }
 
 
 
-    private static void sendAsleepMessage(World world) {
+    private void sendAsleepMessage(World world) {
         List<? extends PlayerEntity> players = world.getPlayers();
         int sleepingPlayerCount = (int)players.stream().filter(LivingEntity::isSleeping).count();
         if (players.size() <= 1) {
@@ -195,20 +188,18 @@ public class EventHandler {
         args.put("asleepPercentageRequired",        NumberFormat.getInstance().format(percentageNeededToSkipNight));
         args.put("asleepPlayersAdditionallyNeeded", NumberFormat.getInstance().format(playersAdditionallyNeeded));
 
-        LiteralText sleepingMessage;
+        String sleepingMessage;
         if (playersAdditionallyNeeded > 0) {
-            sleepingMessage = new LiteralText(StrSubstitutor.replace(BetterSleeping.config.messages.notEnoughPlayersAsleepMessage, args, "{", "}"));
+            sleepingMessage = StringSubstitutor.replace(BetterSleeping.config.messages.notEnoughPlayersAsleepMessage, args, "{", "}");
         } else {
-            sleepingMessage = new LiteralText(StrSubstitutor.replace(BetterSleeping.config.messages.playersAsleepMessage, args, "{", "}"));
+            sleepingMessage = StringSubstitutor.replace(BetterSleeping.config.messages.playersAsleepMessage, args, "{", "}");
         }
-        for (String format : BetterSleeping.config.messages.messageFormatting) {
-            sleepingMessage.formatted(Formatting.byName(format));
-        }
+
         players.forEach(player -> {
             if (!(player instanceof ServerPlayerEntity)) {
                 return;
             }
-            player.sendSystemMessage(sleepingMessage, player.getUuid());
+            sendPlayerMessage(player, sleepingMessage);
         });
     }
 

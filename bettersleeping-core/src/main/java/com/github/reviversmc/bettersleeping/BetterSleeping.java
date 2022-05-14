@@ -1,7 +1,6 @@
 package com.github.reviversmc.bettersleeping;
 
 import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig;
-import com.github.reviversmc.bettersleeping.events.EventHandler;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class BetterSleeping implements ModInitializer {
     public static final String NAMESPACE = "bettersleeping";
@@ -35,8 +33,6 @@ public class BetterSleeping implements ModInitializer {
 	public void onInitialize() {
         AutoConfig.register(BetterSleepingConfig.class, Toml4jConfigSerializer::new);
         config = AutoConfig.getConfigHolder(BetterSleepingConfig.class).getConfig();
-
-		ServerTickEvents.END_SERVER_TICK.register(EventHandler::onTick);
 	}
 
 }

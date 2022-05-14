@@ -15,9 +15,6 @@
     },
     "license": "CC-BY-NC-SA-4.0",
     "environment": "*",
-    "mixins": [
-        "bettersleepingcore.mixins.json"
-    ],
     "depends": {
         "fabricloader": ">=0.12.9",
         "fabric-api-base": "*",

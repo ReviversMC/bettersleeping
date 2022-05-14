@@ -46,14 +46,10 @@ dependencies {
             }
         }
 
-        // modRuntimeOnly "maven.modrinth:dynamic-fps:${project.dynamic_fps_version_1_17}"
-        // modRuntimeOnly "maven.modrinth:ebe:${project.ebe_version_1_17}"
         modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version_1_17}"
         modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version_1_17}"
         modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version_1_17}"
         // modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version_1_17}"
-        // modRuntimeOnly "maven.modrinth:resolution-control-plus:${project.resolution_control_version_1_17}"
-        // modRuntimeOnly "curse.maven:resolution-control-plus-446974:3206545"
         // modRuntimeOnly "curse.maven:smooth-boot-415758:3248104"
         modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_17}"
         // modRuntimeOnly "maven.modrinth:sodium:${project.sodium_version_1_17}"

@@ -16,3 +16,4 @@ rootProject.name = 'bettersleeping'
 
 include 'bettersleeping-core'
 include 'bettersleeping-1.17'
+include 'bettersleeping-1.19'
