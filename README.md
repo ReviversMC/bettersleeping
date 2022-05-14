@@ -34,4 +34,4 @@ The config file also has a formatting field that is used to format the messages.
 
 
 ### Config
-The config file is found in the config folder and is called `bettersleeping.yaml`. This folder should be in the same place as your mods folder (`.minecraft` for Windows). If this file is deleted the mod will recreate it with the default settings at the next start-up.
+The config file is found in the config folder and is called `bettersleeping.toml`. This folder should be in the same place as your mods folder (`.minecraft` for Windows). If this file is deleted the mod will recreate it with the default settings at the next start-up. If you're in singleplayer, you can also use the in-game configuration menu (via ModMenu)!
