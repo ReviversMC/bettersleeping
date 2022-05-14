@@ -1,6 +1,8 @@
-<img align="left" width="40" height="40" src="./bettersleeping-1.17/src/main/resources/assets/bettersleeping/icon.png">
+<img height="74" align="left" src="./bettersleeping-1.17/src/main/resources/assets/bettersleeping/icon.png">
 
-# BetterSleeping for Minecraft
+<h1>
+    BetterSleeping for Minecraft
+</h1>
 
 This mod adds sleep notifications, gives sleeping players buffs and debuffs to the ones who haven't slept in a long time!
 
