@@ -3,6 +3,7 @@ package com.github.reviversmc.bettersleeping.events;
 import com.github.reviversmc.bettersleeping.BetterSleeping;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -16,7 +17,7 @@ public class EventHandler119 extends EventHandlerBase {
         for (String format : BetterSleeping.config.messages.messageFormatting) {
             formattedMessage.formatted(Formatting.byName(format));
         }
-        player.sendMessage(formattedMessage, false);
+        ((ServerPlayerEntity) player).sendMessage(formattedMessage);
     }
 
 }
