@@ -1,4 +1,4 @@
-<img height="74" align="left" src="./bettersleeping-1.17/src/main/resources/assets/bettersleeping/icon.png">
+<img height="70" align="left" src="./bettersleeping-1.17/src/main/resources/assets/bettersleeping/icon.png">
 
 <h1>
     BetterSleeping for Minecraft
