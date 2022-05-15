@@ -15,6 +15,11 @@
     },
     "license": "CC-BY-NC-SA-4.0",
     "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.github.reviversmc.bettersleeping.BetterSleeping"
+        ]
+    },
     "depends": {
         "fabricloader": ">=0.12.9",
         "fabric-api-base": "*",
