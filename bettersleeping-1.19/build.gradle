@@ -36,7 +36,7 @@ dependencies {
     }
 
 
-    if (project.use_third_party_mods == true) {
+    if (project.use_third_party_mods == "true") {
         configurations {
             modRuntimeOnly {
                 transitive = true
