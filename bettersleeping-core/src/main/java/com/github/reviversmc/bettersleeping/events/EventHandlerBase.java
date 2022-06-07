@@ -4,11 +4,11 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.text.StringSubstitutor;
+
 import com.github.reviversmc.bettersleeping.BetterSleeping;
 import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig.Debuffs.Debuff;
 import com.github.reviversmc.bettersleeping.config.BetterSleepingConfig.Debuffs.LeveledDebuff;
-
-import org.apache.commons.text.StringSubstitutor;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
@@ -22,10 +22,15 @@ import net.minecraft.stat.Stats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 
 public abstract class EventHandlerBase {
 
     protected abstract void sendPlayerMessage(PlayerEntity player, String message);
+
+    protected abstract ServerWorld getServerWorld(ServerPlayerEntity player);
+
+    protected abstract boolean isBedWorking(DimensionType dimension);
 
 
     public void onTick(MinecraftServer server) {
@@ -36,6 +41,13 @@ public abstract class EventHandlerBase {
         for (ServerWorld world : server.getWorlds()) {
             if (world.getTimeOfDay() % 24000 == 1) {
                 List<ServerPlayerEntity> players = world.getPlayers();
+                // Night skipped message
+                if (BetterSleeping.config.messages.sendNightSkippedMessageToEveryone) {
+                    for (ServerPlayerEntity player : players) {
+                        sendPlayerMessage(player, BetterSleeping.config.messages.nightSkippedMessage);
+                    }
+                }
+                // Debuffs
                 if (players.size() <= 1 && BetterSleeping.config.debuffs.applyAwakeDebuffsWhenAloneOnServer == false) {
                     return;
                 }
@@ -45,7 +57,7 @@ public abstract class EventHandlerBase {
                         return;
                     }
                     // Only apply in dimensions you can actually sleep in
-                    if (!player.getServerWorld().getDimension().isBedWorking()) {
+                    if (!isBedWorking(getServerWorld(player).getDimension())) {
                         return;
                     }
                     int nightsAwake = player.getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST)) / 24000;
@@ -164,7 +176,9 @@ public abstract class EventHandlerBase {
                     BetterSleeping.config.buffs.regenerationLevel - 1));
         }
 
-        sendPlayerMessage(player, BetterSleeping.config.messages.nightSkippedMessage);
+        if (!BetterSleeping.config.messages.sendNightSkippedMessageToEveryone) {
+            sendPlayerMessage(player, BetterSleeping.config.messages.nightSkippedMessage);
+        }
     }
 
 

@@ -20,6 +20,7 @@ public class BetterSleepingConfig implements ConfigData {
 
     public static class Messages {
         public String nightSkippedMessage = "Rise and shine!";
+        public boolean sendNightSkippedMessageToEveryone = false;
 
         @Comment(
             "Placeholders:\n" +

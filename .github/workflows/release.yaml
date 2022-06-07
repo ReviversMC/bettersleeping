@@ -50,8 +50,8 @@ jobs:
 
           files-primary: bettersleeping-1.17/build/libs/!(*-@(dev|sources)).jar
 
-          name: BetterSleeping 0.6.0-beta.1 for 1.17+
-          version: 0.6.0-beta.1+1.17
+          name: BetterSleeping 0.6.0-rc.1 for 1.17+
+          version: 0.6.0-rc.1+1.17
           version-type: beta
 
           loaders: |
@@ -82,15 +82,15 @@ jobs:
 
           files-primary: bettersleeping-1.19/build/libs/!(*-@(dev|sources)).jar
 
-          name: BetterSleeping 0.6.0-beta.1 for 1.19
-          version: 0.6.0-beta.1+1.19
+          name: BetterSleeping 0.6.0-rc.1 for 1.19
+          version: 0.6.0-rc.1+1.19
           version-type: beta
 
           loaders: |
             fabric
 
           game-versions: |
-            22w19a
+            1.19-pre4
 
           dependencies: |
             fabric-api    | depends

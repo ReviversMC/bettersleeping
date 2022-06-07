@@ -3,6 +3,7 @@
 
 
 	"text.autoconfig.bettersleeping.category.messages": "Messages",
+	"text.autoconfig.bettersleeping.option.messages.sendNightSkippedMessageToEveryone": "Send night skipped message to everyone",
 	"text.autoconfig.bettersleeping.option.messages.nightSkippedMessage": "Night skipped message",
 	"text.autoconfig.bettersleeping.option.messages.debuffMessage": "Debuff message",
 	"text.autoconfig.bettersleeping.option.messages.playersAsleepMessage": "Players asleep message",
