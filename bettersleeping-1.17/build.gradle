@@ -47,12 +47,11 @@ dependencies {
         }
 
         modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version_1_17}"
-        modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version_1_17}"
-        modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version_1_17}"
-        // modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version_1_17}"
-        // modRuntimeOnly "curse.maven:smooth-boot-415758:3248104"
-        modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_17}"
         // modRuntimeOnly "maven.modrinth:sodium:${project.sodium_version_1_17}"
+        modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version_1_17}"
+        // modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version_1_17}"
+        modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_17}"
+        modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version_1_17}"
 
         // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
         // You may need to force-disable transitiveness on them.
