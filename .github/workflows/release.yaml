@@ -90,7 +90,7 @@ jobs:
             fabric
 
           game-versions: |
-            1.19-pre4
+            1.19-rc2
 
           dependencies: |
             fabric-api    | depends
