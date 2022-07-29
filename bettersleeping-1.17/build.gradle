@@ -53,5 +53,6 @@ dependencies {
         modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version_1_17}"
         modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_17}"
         modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version_1_17}"
+        modRuntimeOnly "curse.maven:carpet-349239:${project.carpet_version_1_17}"
     }
 }

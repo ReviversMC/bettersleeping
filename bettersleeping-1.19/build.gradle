@@ -49,9 +49,10 @@ dependencies {
         modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version_1_19}"
         modRuntimeOnly "maven.modrinth:sodium:${project.sodium_version_1_19}"
         runtimeOnly "org.joml:joml:${project.joml_version_sodium_1_19}"
-        modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version_1_19}"
+        // modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version_1_19}"
         modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version_1_19}"
         modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_19}"
         modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version_1_19}"
+        modRuntimeOnly "curse.maven:carpet-349239:${project.carpet_version_1_19}"
     }
 }
