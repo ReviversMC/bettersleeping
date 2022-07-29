@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.11-SNAPSHOT'
+    id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'io.github.juuxel.loom-quiltflower' version '1.7.3'
     id 'maven-publish'
 }
@@ -47,13 +47,11 @@ dependencies {
         }
 
         modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version_1_17}"
-        // modRuntimeOnly "maven.modrinth:sodium:${project.sodium_version_1_17}"
+        modRuntimeOnly "maven.modrinth:sodium:${project.sodium_version_1_17}"
+        runtimeOnly "org.joml:joml:${project.joml_version_sodium_1_17}"
         modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version_1_17}"
-        // modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version_1_17}"
+        modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version_1_17}"
         modRuntimeOnly "maven.modrinth:smoothboot-fabric:${project.smoothboot_version_1_17}"
         modRuntimeOnly "curse.maven:no-fade-452768:${project.no_fade_version_1_17}"
-
-        // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-        // You may need to force-disable transitiveness on them.
     }
 }
