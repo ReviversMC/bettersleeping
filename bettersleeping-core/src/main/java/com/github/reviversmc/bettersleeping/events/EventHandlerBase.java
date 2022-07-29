@@ -48,6 +48,9 @@ public abstract class EventHandlerBase {
                     }
                 }
                 // Debuffs
+                if (!BetterSleeping.config.debuffs.applyAwakeDebuffs) {
+                    return;
+                }
                 if (players.size() <= 1 && BetterSleeping.config.debuffs.applyAwakeDebuffsWhenAloneOnServer == false) {
                     return;
                 }
