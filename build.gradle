@@ -4,6 +4,21 @@ plugins {
 	id 'checkstyle'
 }
 
+
+int width;
+int height;
+
+try {
+	java.awt.GraphicsDevice gd = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+	width = Math.max(960, (int) (gd.getDisplayMode().getWidth() * 0.5));
+	height = Math.max(480, (int) (gd.getDisplayMode().getHeight() * 0.5));
+} catch (java.awt.HeadlessException e) {
+	// Ignore
+} catch (Throwable e) {
+	e.printStackTrace()
+}
+
+
 subprojects {
 	apply plugin: 'fabric-loom'
 	apply plugin: 'io.github.juuxel.loom-quiltflower'
@@ -66,6 +81,18 @@ subprojects {
 		modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
 	}
 
+	loom {
+		runs {
+			client {
+				programArg '--width'
+				programArg "$width"
+
+				programArg '--height'
+				programArg "$height"
+			}
+		}
+	}
+
 
 	processResources {
 		inputs.property 'version', project.version
@@ -97,7 +124,7 @@ subprojects {
 		from rootProject.file('LICENSE')
 
 		if (project.name != 'bettersleeping-core') {
-			into "assets/${project.archivesBaseName2}", {
+			into "assets/${project.archivesBaseName}", {
 				from rootProject.file('assets/icon.png')
 			}
 		}
