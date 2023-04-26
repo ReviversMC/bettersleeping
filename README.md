@@ -1,4 +1,4 @@
-<img height="70" align="right" src="./bettersleeping-1.17/src/main/resources/assets/bettersleeping/icon.png">
+<img height="70" align="right" src="./assets/icon.png">
 
 # BetterSleeping for Minecraft
 [![CurseForge downloads](https://cf.way2muchnoise.eu/bettersleeping-revived.svg)](https://www.curseforge.com/minecraft/mc-mods/bettersleeping-revived)

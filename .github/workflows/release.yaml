@@ -26,44 +26,32 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Build 1.17 project
-        run: ./gradlew :bettersleeping-1.17:build --no-daemon --stacktrace
+        run: ./gradlew :bettersleeping-1.17:build --stacktrace
 
       - name: Build 1.19 project
-        run: ./gradlew :bettersleeping-1.19:build --no-daemon --stacktrace
-
-      # - name: Upload GitHub release
-      #   uses: AButler/upload-release-assets@v2.0
-      #   with:
-      #     files: "**/build/libs/*.jar;!**/build/libs/*-sources.jar;!**/build/libs/*-dev.jar;!bettersleeping-core/"
-      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew :bettersleeping-1.19:build --stacktrace
 
       - name: Publish 1.17 version
         uses: Kir-Antipov/mc-publish@v3.2
         with:
           modrinth-id: WRzU60Pt
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
           curseforge-id: 552358
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
+          github-token: ${{ secrets.CLASSIC_GITHUB_TOKEN }}
           files-primary: bettersleeping-1.17/build/libs/!(*-@(dev|sources)).jar
-
+          files-secondary: null
           name: 0.6.1 for MC 1.17 and 1.18
           version: 0.6.1+1.17
           version-type: release
-
           loaders: |
             fabric
-
           game-versions: |
             1.17
             1.17.1
             1.18
             1.18.1
             1.18.2
-
           dependencies: |
             fabric-api    | depends
             cloth-config  | depends
@@ -74,24 +62,22 @@ jobs:
         with:
           modrinth-id: WRzU60Pt
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
           curseforge-id: 552358
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
+          github-token: ${{ secrets.CLASSIC_GITHUB_TOKEN }}
           files-primary: bettersleeping-1.19/build/libs/!(*-@(dev|sources)).jar
-
+          files-secondary: null
           name: 0.6.1 for MC 1.19
           version: 0.6.1+1.19
           version-type: release
-
           loaders: |
             fabric
-
           game-versions: |
-            1.19-rc2
-
+            1.19
+            1.19.1
+            1.19.2
+            1.19.3
+            1.19.4
           dependencies: |
             fabric-api    | depends
             cloth-config  | depends
